@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
 import Controls from './controls';
-import WaveformPlot from './WaveformPlot';
+import WaveformPlot from './WaveformPlot_transmitted';
 
 const FreeSpaceFixed = () => {
   const canvasRef = useRef<SVGSVGElement>(null);

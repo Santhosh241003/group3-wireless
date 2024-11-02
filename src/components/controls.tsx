@@ -23,7 +23,7 @@ const Controls = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            Frequency (GHz)
+            Frequency (MHz)
           </label>
           <div className="flex items-center gap-4">
             <input
