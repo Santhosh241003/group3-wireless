@@ -51,8 +51,10 @@ const WaveformPlot_transmitted: React.FC<WaveformPlotProps> = ({
     // Draw transmitted waveform
     ctx.strokeStyle = '#3B82F6'; // Transmitted color
     ctx.beginPath();
+
+    const sampling_freq=5*frequency*1e6
     for (let x = 0; x < width; x++) {
-      const t = x / width * (distance / c); // Calculate time based on x position
+      const t = x / sampling_freq; // Calculate time based on x position
       const transmittedField = Math.cos(omega * t); // Transmitted signal calculation
       const yTransmitted = scaleAndShift(transmittedField);
       ctx.lineTo(x, yTransmitted);

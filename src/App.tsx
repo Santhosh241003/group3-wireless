@@ -66,7 +66,13 @@ function App() {
           ))}
         </div>
 
-        <div className="space-y-6">
+        
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
+              {renderScenario()}
+            </div>
+            <div className="space-y-6">
           <Controls
             frequency={frequency}
             setFrequency={setFrequency}
@@ -75,23 +81,9 @@ function App() {
             distance={distance}
             setDistance={setDistance}
           />
-
-          <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-              {renderScenario()}
-            </div>
-
-            <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-              <h2 className="text-xl font-semibold mb-4">Signal Waveform</h2>
+              <h2 className="text-xl font-semibold mb-4">Transmitted Signal Waveform</h2>
               <WaveformPlot_transmitted
-                frequency={frequency}
-                velocity={velocity}
-                distance={distance}
-                isMoving={isMoving}
-              />
-            <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-              <h2 className="text-xl font-semibold mb-4">Signal Waveform</h2>
-              <WaveformPlot_received
                 frequency={frequency}
                 velocity={velocity}
                 distance={distance}
@@ -110,7 +102,14 @@ function App() {
                     {isMoving ? (frequency * velocity / 3e8).toFixed(2) : '0.00'} Hz
                   </div>
                 </div>
-              
+                <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
+              <h2 className="text-xl font-semibold mb-4">Received Signal Waveform</h2>
+              <WaveformPlot_received
+                frequency={frequency}
+                velocity={velocity}
+                distance={distance}
+                isMoving={isMoving}
+              />
               </div>
             </div>
           </div>

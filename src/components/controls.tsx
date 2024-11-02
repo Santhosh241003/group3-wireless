@@ -28,8 +28,8 @@ const Controls = ({
           <div className="flex items-center gap-4">
             <input
               type="range"
-              min="0.1"
-              max="5"
+              min="10"
+              max="100"
               step="0.1"
               value={frequency}
               onChange={(e) => setFrequency(parseFloat(e.target.value))}
