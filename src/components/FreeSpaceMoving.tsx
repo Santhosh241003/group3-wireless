@@ -4,8 +4,9 @@ import { Radio } from 'lucide-react';
 const FreeSpaceMoving = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
   const [receiverPos, setReceiverPos] = useState(0);
-  const [direction, setDirection] = useState(1);
-  
+  const initialPosition = 0;   // Starting position
+  const targetPosition = 300;  // Target position in the x direction
+
   useEffect(() => {
     const waveInterval = setInterval(() => {
       if (canvasRef.current) {
@@ -25,9 +26,11 @@ const FreeSpaceMoving = () => {
 
     const moveInterval = setInterval(() => {
       setReceiverPos((prev) => {
-        if (prev >= 100) setDirection(-1);
-        if (prev <= -100) setDirection(1);
-        return prev + direction * 2;
+        // Move receiver towards the target; reset to start position if it reaches the target
+        if (prev >= targetPosition) {
+          return initialPosition; // Reset to initial position
+        }
+        return prev + 2; // Move to the right
       });
     }, 50);
 
@@ -35,7 +38,7 @@ const FreeSpaceMoving = () => {
       clearInterval(waveInterval);
       clearInterval(moveInterval);
     };
-  }, [direction]);
+  }, []);
 
   return (
     <div className="relative">
@@ -60,7 +63,7 @@ const FreeSpaceMoving = () => {
           </g>
 
           {/* Moving Receiver */}
-          <g transform={`translate(300,${100 + receiverPos})`}>
+          <g transform={`translate(${100 + receiverPos}, 100)`}>
             <Radio className="w-6 h-6 text-green-500" />
           </g>
 
@@ -68,8 +71,8 @@ const FreeSpaceMoving = () => {
           <line 
             x1="106" 
             y1="100" 
-            x2={300 + receiverPos} 
-            y2="100"  
+            x2={100 + receiverPos} 
+            y2="100" 
             stroke="rgba(59,130,246,0.5)" 
             strokeWidth="2" 
             strokeDasharray="5,5" 
@@ -77,9 +80,9 @@ const FreeSpaceMoving = () => {
 
           {/* Movement path */}
           <line 
-            x1="200" 
+            x1="100" 
             y1="100" 
-            x2="400" 
+            x2={100 + receiverPos} 
             y2="100" 
             stroke="rgba(34,197,94,0.2)" 
             strokeWidth="2" 
@@ -87,7 +90,7 @@ const FreeSpaceMoving = () => {
         </svg>
       </div>
       <div className="mt-4 text-gray-300">
-        <p>In this scenario, the receiver antenna moves vertically while the transmitter remains fixed:</p>
+        <p>In this scenario, the receiver antenna moves horizontally in a loop from the initial to the target position:</p>
         <ul className="list-disc list-inside mt-2 space-y-1">
           <li>Doppler effect due to relative motion</li>
           <li>Varying signal strength based on distance</li>

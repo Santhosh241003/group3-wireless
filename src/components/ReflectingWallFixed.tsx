@@ -28,7 +28,7 @@ const ReflectingWallFixed = () => {
     <div className="relative">
       <h2 className="text-xl font-semibold mb-4">Reflecting Wall, Fixed Antenna</h2>
       <div className="bg-gray-900 rounded-lg p-4">
-        <svg ref={canvasRef} viewBox="0 0 400 200" className="w-full h-[400px]">
+        <svg ref={canvasRef} viewBox="0 0 500 200" className="w-full h-[400px]">
           {/* Background grid */}
           <defs>
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -37,8 +37,8 @@ const ReflectingWallFixed = () => {
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
           
-          {/* Reflecting Wall */}
-          <line x1="200" y1="0" x2="200" y2="200" stroke="#ef4444" strokeWidth="4" />
+          {/* Reflecting Wall - positioned to the right of the receiver */}
+          <line x1="400" y1="0" x2="400" y2="200" stroke="#ef4444" strokeWidth="4" />
           
           {/* Transmitter */}
           <g transform="translate(100,100)">
@@ -54,25 +54,36 @@ const ReflectingWallFixed = () => {
             <Radio className="w-6 h-6 text-green-500" />
           </g>
 
-          {/* Direct path */}
-          <line x1="106" y1="100" x2="200" y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
           
-          {/* Reflected path */}
+          {/* Direct path */}
+          <line 
+            x1="106" 
+            y1="100" 
+            x2="300" 
+            y2="100" 
+            stroke="rgba(59,130,246,0.8)" 
+            strokeWidth="3" 
+            strokeDasharray="5,5" 
+          />
+          
+          
+
+          {/* Secondary reflected path (lower path) */}
           <path 
-            d="M 106 100 L 200 100 L 294 100" 
+            d="M 300 100 L 400 100 L 310 110" 
             fill="none"
-            stroke="rgba(59,130,246,0.3)" 
-            strokeWidth="2"
+            stroke="rgba(34,197,94,0.7)" 
+            strokeWidth="3"
+            strokeDasharray="7,3"
           />
         </svg>
       </div>
       <div className="mt-4 text-gray-300">
-        <p>In this scenario, a reflecting wall creates multipath propagation:</p>
+        <p>In this scenario, a reflecting wall creates multiple propagation paths:</p>
         <ul className="list-disc list-inside mt-2 space-y-1">
-          <li>Direct and reflected signal paths</li>
-          <li>Phase differences between paths</li>
-          <li>Potential constructive/destructive interference</li>
-          <li>Signal strength affected by reflection coefficient</li>
+          <li>Direct signal and two reflected paths are shown</li>
+          <li>Different colors and patterns represent each path</li>
+          <li>Constructive/destructive interference may occur at the receiver</li>
         </ul>
       </div>
     </div>
