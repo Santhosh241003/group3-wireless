@@ -89,6 +89,14 @@ function App() {
                 distance={distance}
                 isMoving={isMoving}
               />
+              <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
+              <h2 className="text-xl font-semibold mb-4">Received Signal Waveform</h2>
+              <WaveformPlot_received
+                frequency={frequency}
+                velocity={velocity}
+                distance={distance}
+                isMoving={isMoving}
+              />
               <div className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-300">
                 <div>
                   <div className="font-medium mb-1">Path Loss:</div>
@@ -102,14 +110,7 @@ function App() {
                     {isMoving ? (frequency * velocity / 3e8).toFixed(2) : '0.00'} Hz
                   </div>
                 </div>
-                <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-              <h2 className="text-xl font-semibold mb-4">Received Signal Waveform</h2>
-              <WaveformPlot_received
-                frequency={frequency}
-                velocity={velocity}
-                distance={distance}
-                isMoving={isMoving}
-              />
+                
               </div>
             </div>
           </div>

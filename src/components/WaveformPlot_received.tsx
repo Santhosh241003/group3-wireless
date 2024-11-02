@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+// WaveformPlot_received.tsx
+
+import React from 'react';
+import Plot from 'react-plotly.js';
 
 interface WaveformPlotProps {
-  frequency: number;
-  velocity: number;
-  distance: number;
+  frequency: number; // in MHz
+  velocity: number; // in m/s
+  distance: number; // in meters
   isMoving: boolean;
 }
 
@@ -13,59 +16,47 @@ const WaveformPlot_received: React.FC<WaveformPlotProps> = ({
   distance,
   isMoving,
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Constants
+  const c = 3e8; // Speed of light in m/s
+  const omega = 2 * Math.PI * frequency * 1e6; // Angular frequency in rad/s
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  // Adjusted frequency due to Doppler effect (if isMoving is true)
+  const adjustedFrequency = isMoving ? frequency * ((c - velocity) / c) : frequency;
+  const adjustedOmega = 2 * Math.PI * adjustedFrequency * 1e6; // Adjusted angular frequency
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Set up plotting parameters
-    const width = canvas.width;
-    const height = canvas.height;
-    const centerY = height / 2;
-
-    // Convert frequency to angular frequency
-    const omega = 2 * Math.PI * frequency * 1e6; // Use MHz if necessary
-
-    // Calculate wavelength
-    const c = 3e8; // speed of light
-
-    // Draw axes
-    ctx.strokeStyle = '#4B5563';
-    ctx.beginPath();
-    ctx.moveTo(0, centerY);
-    ctx.lineTo(width, centerY);
-    ctx.stroke();
-
-    // Function to scale and shift the waveform for canvas
-    const scaleAndShift = (y: number) => {
-      return (y * height / 4) + centerY; // Scale by height/4 and shift to center
-    };
-
-    // Draw received waveform
-    ctx.strokeStyle = '#10B981'; // Received color
-    ctx.beginPath();
-    for (let x = 0; x < width; x++) {
-      const t = x / width * (distance / c); // Calculate time based on x position
-      const receivedField = Math.cos(omega * (t - distance / c)); // Time delayed for reception
-      const yReceived = scaleAndShift(receivedField);
-      ctx.lineTo(x, yReceived);
-    }
-    ctx.stroke();
-  }, [frequency, velocity, distance, isMoving]);
+  // Generate data points
+  const numPoints = 200; // Number of points for the plot
+  const x = Array.from({ length: numPoints }, (_, i) => i / (10*100*1e6)); // Time array
+  const y = x.map((t) => Math.cos(adjustedOmega * (t - distance / c))); // Received signal values with delay
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={400}
-      height={200} // Adjust height as necessary
-      className="w-full bg-gray-900 rounded-lg"
+    <Plot
+      data={[
+        {
+          x: x,
+          y: y,
+          type: 'scatter',
+          mode: 'lines+markers',
+          marker: { color: '#10B981' },
+          name: 'Received Signal',
+        },
+      ]}
+      layout={{
+        title: 'Received Signal Waveform',
+        xaxis: {
+          title: 'Time (s)',
+          showgrid: true,
+          zeroline: false,
+        },
+        yaxis: {
+          title: 'Amplitude',
+          showgrid: true,
+          zeroline: false,
+        },
+        hovermode: 'closest',
+      }}
+      style={{ width: '100%', height: '100%' }}
+      config={{ responsive: true }}
     />
   );
 };
