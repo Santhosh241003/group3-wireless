@@ -5,7 +5,7 @@ const FreeSpaceMoving = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
   const [receiverPos, setReceiverPos] = useState(0);
   const initialPosition = 0;   // Starting position
-  const targetPosition = 300;  // Target position in the x direction
+  const targetPosition = 200;  // Target position in the x direction
 
   useEffect(() => {
     const waveInterval = setInterval(() => {

@@ -4,7 +4,6 @@ import { Radio } from 'lucide-react';
 const ReflectingWallMoving = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
   const [receiverPosX, setReceiverPosX] = useState(0);
-  const receiverSpeed = 2;
   const wallPositionX = 400; // Wall's x-position
 
   useEffect(() => {
@@ -37,10 +36,12 @@ const ReflectingWallMoving = () => {
     }, 50);
 
     const moveInterval = setInterval(() => {
-      setReceiverPosX((prevPosX) => {
-        const newPosX = prevPosX + receiverSpeed;
-        // Reset to starting position if receiver crosses the wall
-        return newPosX >= wallPositionX ? 0 : newPosX;
+      setReceiverPosX((prev) => {
+        // Move receiver towards the target; reset to start position if it reaches the target
+        if (prev >= wallPositionX) {
+          return 106; // Reset to initial position
+        }
+        return prev + 2; // Move to the right
       });
     }, 50);
 
@@ -76,7 +77,7 @@ const ReflectingWallMoving = () => {
           </g>
 
           {/* Moving Receiver */}
-          <g transform={`translate(${(receiverPosX >= wallPositionX ? 0 : 100 + receiverPosX)}, 100)`}>
+          <g transform={`translate(${(receiverPosX >= wallPositionX -10 ?  106 : receiverPosX)}, 100)`}>
             <Radio className="w-6 h-6 text-green-500" />
           </g>
 
@@ -85,7 +86,7 @@ const ReflectingWallMoving = () => {
           <line 
             x1="106" 
             y1="100" 
-            x2={100 + receiverPosX} 
+            x2={receiverPosX} 
             y2="100" 
             stroke="rgba(59,130,246,0.5)" 
             strokeWidth="2" 
@@ -93,14 +94,26 @@ const ReflectingWallMoving = () => {
           />
           
           {/* Reflected Ray */}
-          {receiverPosX >= wallPositionX - 10 && receiverPosX < wallPositionX && (
+          {(
             <line 
               x1={wallPositionX} 
               y1="100" 
-              x2={100 + receiverPosX} 
+              x2={receiverPosX} 
               y2="100" 
               stroke="rgba(246,82,3,0.7)" 
               strokeWidth="2" 
+              strokeDasharray="5,5"
+            />
+          )}
+          {(
+            <line 
+              x1={wallPositionX} 
+              y1="110" 
+              x2={receiverPosX+12} 
+              y2="110" 
+              stroke="rgba(246,82,3,0.7)" 
+              strokeWidth="2" 
+              strokeDasharray="5,5"
             />
           )}
         </svg>
