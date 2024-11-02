@@ -11,7 +11,7 @@ type ScenarioType = 'freeFixed' | 'freeMoving' | 'wallFixed' | 'wallMoving';
 
 function App() {
   const [activeScenario, setActiveScenario] = useState<ScenarioType>('freeFixed');
-  const [frequency, setFrequency] = useState(2.4); // 2.4 GHz default
+  const [frequency, setFrequency] = useState(10); // 10 GHz default
   const [velocity, setVelocity] = useState(0); // m/s
   const [distance, setDistance] = useState(100); // meters
 
