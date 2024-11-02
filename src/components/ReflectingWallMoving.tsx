@@ -21,7 +21,7 @@ const ReflectingWallMoving = () => {
             wave.setAttribute('opacity', `${currentOpacity - 0.02}`);
           }
         });
-        
+
         const reflectedWaves = canvasRef.current.querySelectorAll('.reflected-wave');
         reflectedWaves.forEach((wave) => {
           const currentOpacity = parseFloat(wave.getAttribute('opacity') || '1');
@@ -39,10 +39,8 @@ const ReflectingWallMoving = () => {
     const moveInterval = setInterval(() => {
       setReceiverPosX((prevPosX) => {
         const newPosX = prevPosX + receiverSpeed;
-        if (newPosX >= wallPositionX - 10) {
-          return 0; // Restart from the beginning if receiver hits the wall
-        }
-        return newPosX;
+        // Reset to starting position if receiver crosses the wall
+        return newPosX >= wallPositionX ? 0 : newPosX;
       });
     }, 50);
 
@@ -78,9 +76,10 @@ const ReflectingWallMoving = () => {
           </g>
 
           {/* Moving Receiver */}
-          <g transform={`translate(${100 + receiverPosX}, 100)`}>
+          <g transform={`translate(${(receiverPosX >= wallPositionX ? 0 : 100 + receiverPosX)}, 100)`}>
             <Radio className="w-6 h-6 text-green-500" />
           </g>
+
 
           {/* Direct path */}
           <line 

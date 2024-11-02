@@ -70,7 +70,7 @@ const ReflectingWallFixed = () => {
 
           {/* Secondary reflected path (lower path) */}
           <path 
-            d="M 300 100 L 400 100 L 310 110" 
+            d="M 300 100 L 400 100 L 400 110 L 310 110" 
             fill="none"
             stroke="rgba(34,197,94,0.7)" 
             strokeWidth="3"
