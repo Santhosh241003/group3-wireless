@@ -93,23 +93,17 @@ const ReflectingWallMoving = () => {
             strokeDasharray="5,5" 
           />
           
-          {/* Reflected path */}
-          <path 
-            d={`M 106 100 L ${wallPositionX} 100 L ${100 + receiverPosX} 100`}
-            fill="none"
-            stroke="rgba(246,82,3,0.7)" 
-            strokeWidth="2"
-          />
-
-          {/* Reflected Waves from Wall */}
-          <g transform={`translate(${wallPositionX}, 100)`}>
-            <circle className="reflected-wave" r="30" fill="none" stroke="#ef4444" strokeWidth="2" opacity="1" />
-            <circle className="reflected-wave" r="50" fill="none" stroke="#ef4444" strokeWidth="2" opacity="0.8" />
-            <circle className="reflected-wave" r="70" fill="none" stroke="#ef4444" strokeWidth="2" opacity="0.6" />
-            <circle className="reflected-wave" r="90" fill="none" stroke="#ef4444" strokeWidth="2" opacity="0.4" />
-          </g>
-          
-          
+          {/* Reflected Ray */}
+          {receiverPosX >= wallPositionX - 10 && receiverPosX < wallPositionX && (
+            <line 
+              x1={wallPositionX} 
+              y1="100" 
+              x2={100 + receiverPosX} 
+              y2="100" 
+              stroke="rgba(246,82,3,0.7)" 
+              strokeWidth="2" 
+            />
+          )}
         </svg>
       </div>
       <div className="mt-4 text-gray-300">
