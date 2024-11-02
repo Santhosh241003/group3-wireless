@@ -72,7 +72,7 @@ const ReflectingWallFixed = () => {
           <path 
             d="M 300 100 L 400 100 L 400 110 L 310 110" 
             fill="none"
-            stroke="rgba(34,197,94,0.7)" 
+            stroke="rgba(246,82,3,0.7)" 
             strokeWidth="3"
             strokeDasharray="7,3"
           />

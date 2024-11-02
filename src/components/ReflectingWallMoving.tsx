@@ -3,7 +3,7 @@ import { Radio } from 'lucide-react';
 
 const ReflectingWallMoving = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
-  const [receiverPosX, setReceiverPosX] = useState(0);
+  const [receiverPosX, setReceiverPosX] = useState(106);
   const wallPositionX = 400; // Wall's x-position
 
   useEffect(() => {
