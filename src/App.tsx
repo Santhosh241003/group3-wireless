@@ -4,11 +4,16 @@ import FreeSpaceFixed from './components/FreeSpaceFixed';
 import FreeSpaceMoving from './components/FreeSpaceMoving';
 import ReflectingWallFixed from './components/ReflectingWallFixed';
 import ReflectingWallMoving from './components/ReflectingWallMoving';
+import Controls from './components/controls';
+import WaveformPlot from './components/WaveformPlot';
 
 type ScenarioType = 'freeFixed' | 'freeMoving' | 'wallFixed' | 'wallMoving';
 
 function App() {
   const [activeScenario, setActiveScenario] = useState<ScenarioType>('freeFixed');
+  const [frequency, setFrequency] = useState(2.4); // 2.4 GHz default
+  const [velocity, setVelocity] = useState(0); // m/s
+  const [distance, setDistance] = useState(100); // meters
 
   const scenarios = [
     { id: 'freeFixed', title: 'Free Space, Fixed Antennas' },
@@ -16,6 +21,9 @@ function App() {
     { id: 'wallFixed', title: 'Reflecting Wall, Fixed Antenna' },
     { id: 'wallMoving', title: 'Reflecting Wall, Moving Antenna' },
   ];
+
+  const isMoving = activeScenario === 'freeMoving' || activeScenario === 'wallMoving';
+  const hasReflection = activeScenario === 'wallFixed' || activeScenario === 'wallMoving';
 
   const renderScenario = () => {
     switch (activeScenario) {
@@ -36,10 +44,10 @@ function App() {
         <header className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Radio className="w-8 h-8 text-blue-400" />
-            <h1 className="text-3xl font-bold">Radio Wave Propagation Scenarios</h1>
+            <h1 className="text-3xl font-bold">Radio Wave Propagation Calculator</h1>
             <Waves className="w-8 h-8 text-blue-400" />
           </div>
-          <p className="text-gray-300">Interactive visualization of different radio wave propagation scenarios</p>
+          <p className="text-gray-300">Interactive visualization and calculation of radio wave propagation scenarios</p>
         </header>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -58,8 +66,46 @@ function App() {
           ))}
         </div>
 
-        <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-          {renderScenario()}
+        <div className="space-y-6">
+          <Controls
+            frequency={frequency}
+            setFrequency={setFrequency}
+            velocity={velocity}
+            setVelocity={setVelocity}
+            distance={distance}
+            setDistance={setDistance}
+          />
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
+              {renderScenario()}
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
+              <h2 className="text-xl font-semibold mb-4">Signal Waveform</h2>
+              <WaveformPlot
+                frequency={frequency}
+                velocity={velocity}
+                distance={distance}
+                isMoving={isMoving}
+                hasReflection={hasReflection}
+              />
+              <div className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-300">
+                <div>
+                  <div className="font-medium mb-1">Path Loss:</div>
+                  <div className="bg-gray-700 rounded p-2">
+                    {(20 * Math.log10(4 * Math.PI * distance * frequency * 1e9 / 3e8)).toFixed(2)} dB
+                  </div>
+                </div>
+                <div>
+                  <div className="font-medium mb-1">Doppler Shift:</div>
+                  <div className="bg-gray-700 rounded p-2">
+                    {isMoving ? (frequency * velocity / 3e8).toFixed(2) : '0.00'} Hz
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
