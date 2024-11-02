@@ -68,8 +68,8 @@ const FreeSpaceMoving = () => {
           <line 
             x1="106" 
             y1="100" 
-            x2="294" 
-            y2={100 + receiverPos} 
+            x2={300 + receiverPos} 
+            y2="100"  
             stroke="rgba(59,130,246,0.5)" 
             strokeWidth="2" 
             strokeDasharray="5,5" 
@@ -77,10 +77,10 @@ const FreeSpaceMoving = () => {
 
           {/* Movement path */}
           <line 
-            x1="300" 
-            y1="0" 
-            x2="300" 
-            y2="200" 
+            x1="200" 
+            y1="100" 
+            x2="400" 
+            y2="100" 
             stroke="rgba(34,197,94,0.2)" 
             strokeWidth="2" 
           />
