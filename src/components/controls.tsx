@@ -48,7 +48,7 @@ const Controls = ({
           <div className="flex items-center gap-4">
             <input
               type="range"
-              min="-100"
+              min="0"
               max="100"
               step="1"
               value={velocity}
@@ -69,7 +69,7 @@ const Controls = ({
             <input
               type="range"
               min="10"
-              max="1000"
+              max="400"
               step="10"
               value={distance}
               onChange={(e) => setDistance(parseFloat(e.target.value))}
