@@ -1,9 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
+import Controls from './controls'; // Make sure this path is correct
 
 const FreeSpaceFixed = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
-  
+  const [frequency, setFrequency] = useState(2);
+  const [velocity, setVelocity] = useState(0);
+  const [distance, setDistance] = useState(100);
+
+  // Animation effect for wave propagation
   useEffect(() => {
     const interval = setInterval(() => {
       if (canvasRef.current) {
@@ -27,7 +32,18 @@ const FreeSpaceFixed = () => {
   return (
     <div className="relative">
       <h2 className="text-xl font-semibold mb-4">Free Space, Fixed Transmit and Receive Antennas</h2>
-      <div className="bg-gray-900 rounded-lg p-4">
+      
+      {/* Controls Section */}
+      <Controls
+        frequency={frequency}
+        setFrequency={setFrequency}
+        velocity={velocity}
+        setVelocity={setVelocity}
+        distance={distance}
+        setDistance={setDistance}
+      />
+
+      <div className="bg-gray-900 rounded-lg p-4 mt-4">
         <svg ref={canvasRef} viewBox="0 0 400 200" className="w-full h-[400px]">
           {/* Background grid */}
           <defs>
@@ -36,7 +52,7 @@ const FreeSpaceFixed = () => {
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
-          
+
           {/* Transmitter */}
           <g transform="translate(100,100)">
             <Radio className="w-6 h-6 text-blue-500" />
@@ -47,14 +63,15 @@ const FreeSpaceFixed = () => {
           </g>
 
           {/* Receiver */}
-          <g transform="translate(300,100)">
+          <g transform={`translate(${300 - distance}, 100)`}>
             <Radio className="w-6 h-6 text-green-500" />
           </g>
 
           {/* Direct path */}
-          <line x1="106" y1="100" x2="294" y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="106" y1="100" x2={300 - distance} y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
       </div>
+      
       <div className="mt-4 text-gray-300">
         <p>In this scenario, both transmitter and receiver antennas are fixed in free space:</p>
         <ul className="list-disc list-inside mt-2 space-y-1">
