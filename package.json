@@ -8,17 +8,16 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "react-scripts start"
+    "start": "react-scripts start --legacy-peer-deps"
   },
   "dependencies": {
-    "katex": "^0.16.9",
     "lucide-react": "^0.344.0",
     "plotly.js": "^2.35.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-katex": "^3.0.1",
     "react-plotly.js": "^2.6.0",
-    "react-scripts": "^5.0.1"
+    "react-katex": "^3.0.1",
+    "katex": "^0.16.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
