@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
 
 const FreeSpaceFixed = () => {
-  const canvasRef = useRef(null);
+  // Properly type the ref as an SVGSVGElement
+  const canvasRef = useRef<SVGSVGElement>(null);
   const [frequency, setFrequency] = useState(2);
   const [velocity, setVelocity] = useState(0);
   const [distance, setDistance] = useState(100);
@@ -10,7 +11,11 @@ const FreeSpaceFixed = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (canvasRef.current) {
-        const waves = canvasRef.current.querySelectorAll('.wave');
+        // Type assertion to ensure TypeScript knows we're working with an SVGElement
+        const waves = Array.from(canvasRef.current.getElementsByClassName('wave')).filter(
+          (element): element is SVGCircleElement => element instanceof SVGCircleElement
+        );
+        
         waves.forEach((wave) => {
           const currentOpacity = parseFloat(wave.getAttribute('opacity') || '1');
           if (currentOpacity <= 0.1) {
