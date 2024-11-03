@@ -60,6 +60,30 @@ const FreeSpaceFixed = () => {
           <line x1="106" y1="100" x2="294" y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
       </div>
+
+      {/* Key Points Section */}
+      <div className="mt-4 text-gray-300">
+        <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
+        
+        <div className="mt-2 mb-4">
+          {/* Main Equation */}
+          <p className="mb-2">
+            <span className="font-semibold">Electric Field Strength:</span> 
+            {" "}Ef(t, r, θ, φ) = S(θ, φ, f) * cos(2πf(t - r/c)) / r
+          </p>
+          <p className="mb-2">
+            As the distance <i>r</i> increases, the electric field strength decreases with <i>1/r</i>, 
+            and the power per unit area |E|<sup>2</sup> decreases as <i>1/r<sup>2</sup></i>.
+          </p>
+
+          {/* Points */}
+          <ul className="list-disc ml-6">
+            <li><span className="font-semibold">Free-space propagation:</span> Follows a <i>1/r<sup>2</sup></i> power decay with distance due to spherical spreading.</li>
+            <li><span className="font-semibold">Linearity:</span> The system responds linearly to transmitted signals.</li>
+            <li><span className="font-semibold">Time Invariance:</span> Holds only when transmit and receive antennas are fixed; obstructions or motion (e.g., Doppler shifts) can break time invariance.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
