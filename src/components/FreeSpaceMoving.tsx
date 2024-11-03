@@ -1,28 +1,36 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Radio } from 'lucide-react';
-import MathJax from 'react-mathjax';
 
 const SignalEquations = () => (
-  <MathJax.Provider>
-    <div className="mt-4 text-gray-300">
-      <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
-      {/* Explanation of Variables */}
-      <div className="mt-4">
-        <h4 className="text-md font-semibold">Variable Explanations:</h4>
-        <p><strong>r</strong>: Distance from transmitter to receiver (meters)</p>
-        <p><strong>f</strong>: Frequency of the transmitted signal (hertz)</p>
-        <p><strong>A</strong>: Amplitude of the transmitted signal</p>
-        <p><strong>c</strong>: Speed of light in a vacuum (approximately 3 × 10<sup>8</sup> m/s)</p>
-        
-        {/* Transmitted and Received Signal Equations */}
-
-        <MathJax.Node formula={`\\text{Transmitted Signal: } E_{\\text{transmit}}(t) = A \\cdot \\cos(2 \\pi f t)`} />
-        <MathJax.Node formula={`\\text{Received Signal: } E_{\\text{receive}}(t, r) = \\frac{A \\cdot \\cos\\left(2 \\pi f \\left(t - \\frac{r}{c}\\right)\\right)}{r}`} />
-        <MathJax.Node formula={`\\text{Power Density: } P \\propto \\frac{1}{r^2}`} />
+  <div className="mt-4 text-gray-300">
+    <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
+    
+    {/* Explanation of Variables */}
+    <div className="mt-4">
+      
+      {/* Transmitted and Received Signal Equations */}
+      <div className="space-y-2">
+        <div className="p-2 bg-gray-800 rounded">
+          <p>Transmitted Signal:</p>
+          <code className="block text-sm bg-gray-900 p-2 rounded">
+            A · cos(2πft)
+          </code>
+        </div>
+        <div className="p-2 bg-gray-800 rounded">
+          <p>Received Signal:</p>
+          <code className="block text-sm bg-gray-900 p-2 rounded">
+            A · cos(2πf(t - r/c - vt/c)) / (r + vt)
+          </code>
+        </div>
       </div>
-
+      <h4 className="text-md font-semibold">Variable Explanations:</h4>
+      <p><strong>r</strong>: Distance from transmitter to receiver (meters)</p>
+      <p><strong>f</strong>: Frequency of the transmitted signal (hertz)</p>
+      <p><strong>A</strong>: Amplitude of the transmitted signal</p>
+      <p><strong>v</strong>: Velocity of  the receiver</p>
+      <p><strong>c</strong>: Speed of light in a vacuum (approximately 3 × 10<sup>8</sup> m/s)</p>
     </div>
-  </MathJax.Provider>
+  </div>
 );
 
 const FreeSpaceFixed = () => {
