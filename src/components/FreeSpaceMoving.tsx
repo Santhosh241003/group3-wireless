@@ -90,12 +90,37 @@ const FreeSpaceMoving = () => {
         </svg>
       </div>
       <div className="mt-4 text-gray-300">
-        <p>In this scenario, the receiver antenna moves horizontally in a loop from the initial to the target position:</p>
+        {/* Explanation of Concepts */}
+        <h3 className="text-lg font-semibold">Key Concepts:</h3>
+        
+        {/* Position of the Receiver */}
+        <h4 className="text-md font-semibold mt-4">1. Position of the Moving Receiver:</h4>
+        <p className="mb-2">
+          The receiver moves with speed \( v \) away from the transmitter. Its position \( u(t) = (r(t), θ, φ) \) depends on:
+        </p>
         <ul className="list-disc list-inside mt-2 space-y-1">
-          <li>Doppler effect due to relative motion</li>
-          <li>Varying signal strength based on distance</li>
-          <li>Dynamic path loss changes</li>
-          <li>Frequency shifts in received signal</li>
+          <li><strong>r(t) = r₀ + vt</strong>: Distance from the transmitter, where \( r₀ \) is the initial distance.</li>
+          <li><strong>θ, φ</strong>: Fixed vertical and horizontal angles, assuming constant antenna orientation.</li>
+        </ul>
+
+        {/* Electric Field at Moving Point */}
+        <h4 className="text-md font-semibold mt-4">2. Electric Field at the Moving Point:</h4>
+        <p className="mb-2">
+          The electric field \( E_f(t, u(t)) \) at this moving observation point is influenced by the time delays:
+        </p>
+        <ul className="list-disc list-inside mt-2 space-y-1">
+          <li><strong>S(θ, φ, f)</strong>: Radiation pattern of the transmitting antenna at frequency \( f \).</li>
+          <li><strong>cos(2πf(t - (r₀/c) - (vt/c)))</strong>: Includes initial delay \( r₀/c \) and delay from motion \( vt/c \).</li>
+        </ul>
+
+        {/* Doppler Shift */}
+        <h4 className="text-md font-semibold mt-4">3. Doppler Shift:</h4>
+        <p className="mb-2">
+          Due to motion, the frequency observed by the receiver changes, showing a Doppler shift:
+        </p>
+        <ul className="list-disc list-inside mt-2 space-y-1">
+          <li><String>f' = f(1 - (v/c))</String>: The effective observed frequency.</li>
+          <li><strong>Doppler shift = -f(v/c)</strong>: The shift amount due to the receiver's velocity.</li>
         </ul>
       </div>
     </div>
