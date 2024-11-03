@@ -56,15 +56,8 @@ const Controls = ({
                             className="w-20 h-10 p-2 border border-gray-300 bg-gray-700 rounded-lg text-white"
                             placeholder="MHz"
                         />
-
-                        {/* Display current frequency value */}
-                        <span className="w-16 text-right text-sm bg-gray-700 rounded px-2 py-1">
-                            {frequency.toFixed(1)} MHz
-                        </span>
                     </div>
                 </div>
-
-
                 <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
                         Velocity (m/s)
@@ -92,20 +85,39 @@ const Controls = ({
                         Distance (m)
                     </label>
                     <div className="flex items-center gap-4">
+                        {/* Slider for distance */}
                         <input
                             type="range"
                             min="10"
                             max="300"
                             step="10"
                             value={distance}
-                            onChange={(e) => setDistance(parseFloat(e.target.value))}
+                            onChange={(e) => {
+                                const newDistance = parseFloat(e.target.value);
+                                setDistance(newDistance);
+                            }}
                             className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
                         />
-                        <span className="w-16 text-right text-sm bg-gray-700 rounded px-2 py-1">
-                            {distance}
-                        </span>
+
+                        {/* Number input for distance */}
+                        <input
+                            type="number"
+                            min="10"
+                            max="300"
+                            step="10"
+                            value={distance}
+                            onChange={(e) => {
+                                const newDistance = parseFloat(e.target.value);
+                                if (newDistance >= 10 && newDistance <= 300) {
+                                    setDistance(newDistance);
+                                }
+                            }}
+                            className="w-20 h-10 p-2 border border-gray-300 bg-gray-700 rounded-lg text-white"
+                            placeholder="m"
+                        />
                     </div>
                 </div>
+
             </div>
         </div>
     );

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
 import Controls from './controls';
 import WaveformPlot from './WaveformPlot_transmitted';
+import { BlockMath } from 'react-katex'; // Importing BlockMath for LaTeX rendering
 
 const FreeSpaceFixed = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
@@ -9,25 +10,6 @@ const FreeSpaceFixed = () => {
   const [velocity, setVelocity] = useState(0);
   const [distance, setDistance] = useState(100);
   
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (canvasRef.current) {
-        const waves = canvasRef.current.querySelectorAll('.wave');
-        waves.forEach((wave) => {
-          const currentOpacity = parseFloat(wave.getAttribute('opacity') || '1');
-          if (currentOpacity <= 0.1) {
-            wave.setAttribute('r', '30');
-            wave.setAttribute('opacity', '1');
-          } else {
-            wave.setAttribute('r', `${parseFloat(wave.getAttribute('r') || '30') + 2}`);
-            wave.setAttribute('opacity', `${currentOpacity - 0.02}`);
-          }
-        });
-      }
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, []);
   useEffect(() => {
     const interval = setInterval(() => {
       if (canvasRef.current) {
@@ -87,10 +69,20 @@ const FreeSpaceFixed = () => {
           <li>Ideal propagation conditions</li>
           <li>Signal strength follows inverse square law</li>
         </ul>
+        <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
+        <div className="mt-2">
+          <BlockMath>{`E_f(t, r, \\theta, \\phi) = \\frac{S(\\theta, \\phi, f) \\cdot \\cos(2\\pi f(t - \\frac{r}{c}))}{r}`}</BlockMath>
+          <BlockMath>{`P \\propto \\frac{1}{r^2}`}</BlockMath>
+        </div>
+        <h3 className="text-lg font-semibold mt-4">Path Loss Calculation:</h3>
+        <div className="mt-2">
+          <BlockMath>{`L(d) = 10 \\log_{10}\\left(\\frac{P_t}{P_r}\\right) = 20 \\log_{10}(d) + 20 \\log_{10}(f) + K`}</BlockMath>
+          <p className="text-sm text-gray-400">
+            Where \(P_t\) is the transmitted power, \(P_r\) is the received power, \(d\) is the distance, \(f\) is the frequency, and \(K\) is a constant that accounts for system losses.
+          </p>
+        </div>
       </div>
     </div>
-
-    
   );
 };
 
