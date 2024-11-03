@@ -29,16 +29,16 @@ function App() {
 
   const hasReflection = activeScenario === 'wallFixed' || activeScenario === 'wallMoving';
 
-  const calculatePathLoss = (distance: number,frequency: number) => {
+  const calculatePathLoss = (distance: number, frequency: number) => {
     if (distance > 0 && frequency > 0) {
       return (20 * Math.log10((4 * Math.PI * distance * frequency * 1e9) / 3e8)).toFixed(2);
     }
     return 'N/A';
   };
 
-  const calculateDopplerShift = (velocity: number,frequency: number) => {
+  const calculateDopplerShift = (velocity: number, frequency: number) => {
     if (isMoving && velocity && frequency > 0) {
-      return (frequency *1e6 * velocity / 3e8).toFixed(2);
+      return (frequency * 1e6 * velocity / 3e8).toFixed(2);
     }
 
     return '0.00 Hz';
@@ -63,7 +63,7 @@ function App() {
     if (activeScenario === 'freeFixed' || activeScenario === 'freeMoving') {
       return (
         <>
-          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[450px] shadow-xl">
+          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[500px] shadow-xl">
             <h2 className="text-xl font-semibold pb-4 text-center">Transmitted Signal Waveform</h2>
             <div>
               <WaveformPlot_transmitted
@@ -75,7 +75,7 @@ function App() {
             </div>
           </div>
 
-          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[450px] shadow-xl">
+          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[500px] shadow-xl">
             <h2 className="text-xl font-semibold pb-4 text-center">Received Signal Waveform</h2>
             <div>
               <WaveformPlot_received
@@ -91,7 +91,7 @@ function App() {
     } else if (hasReflection) {
       return (
         <>
-          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[450px] shadow-xl">
+          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[500px] shadow-xl">
             <h2 className="text-xl font-semibold pb-4 text-center">Transmitted Signal Waveform</h2>
             <div>
               <WaveformPlot_transmitted
@@ -103,7 +103,7 @@ function App() {
             </div>
           </div>
 
-          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[450px] shadow-xl">
+          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[500px] shadow-xl">
             <h2 className="text-xl font-semibold pb-4 text-center">Reflected Signal Waveform</h2>
             <div>
               <WaveformPlot_received_wall
@@ -173,17 +173,19 @@ function App() {
         </div>
 
         {/* Path Loss and Doppler Shift Info */}
-        <div className="mt-6 grid grid-cols-2 gap-4 text-sm max-w-6xl mx-auto text-gray-300">
-          <div>
-            <div className="font-medium mb-1">Path Loss:</div>
-            <div className="bg-gray-700 rounded p-2 text-center">
-              {calculatePathLoss(distance,frequency)} dB
+        <div className="bg-gray-800 rounded-xl p-6 shadow-xl mb-8">
+          <div className="mt-6 grid grid-cols-2 gap-4 text-sm max-w-6xl mx-auto text-gray-300">
+            <div>
+              <div className="font-medium mb-1">Path Loss:</div>
+              <div className="bg-gray-700 rounded p-2 text-center">
+                {calculatePathLoss(distance, frequency)} dB
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="font-medium mb-1">Doppler Shift:</div>
-            <div className="bg-gray-700 rounded p-2 text-center">
-              {calculateDopplerShift(velocity,frequency)} Hz
+            <div>
+              <div className="font-medium mb-1">Doppler Shift:</div>
+              <div className="bg-gray-700 rounded p-2 text-center">
+                {calculateDopplerShift(velocity, frequency)} Hz
+              </div>
             </div>
           </div>
         </div>
