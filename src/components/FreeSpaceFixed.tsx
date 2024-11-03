@@ -64,6 +64,7 @@ const FreeSpaceFixed = () => {
       <MathJax.Provider>
         <div className="mt-4 text-gray-300">
           <h3 className="text-lg font-semibold mt-4">Key Points:</h3>
+          
             <MathJax.Node formula={`\\text{Transmitted } \\text{Signal} = A \\cdot \\frac{\\cos(2 \\pi f t) `} />
             <MathJax.Node formula={`\\text{Received } \\text{Signal} = A \\cdot \\frac{\\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`} />
             <MathJax.Node formula={`\\text{As distance r increases, the electric field strength decreases with }\\frac{1}{r}\\text{, and the power per unit area} \\( |E|^2 \\) decreases as \\( \\frac{1}{r^2} \\)`} />
