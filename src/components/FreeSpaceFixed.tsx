@@ -7,7 +7,9 @@ const KeyEquations = React.memo(() => (
   <div className="mt-4 text-gray-300">
     <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
     <div className="mt-2">
-      <BlockMath>{`\\text{Transmitted Signal: } E_t(t) = A \\cos(2 \\pi f t)`}</BlockMath>
+    <div className="p-2 bg-gray-800 rounded">
+        Transmitted Signal: Et(t) = A cos(2πft)
+      </div>
       <BlockMath>{`\\text{Received Signal: } E_r(t, r) = \\frac{S(\\theta, \\phi, f) \\cdot A \\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`}</BlockMath>
       <BlockMath>{`\\text{Power Density: } P \\propto \\frac{1}{r^2}`}</BlockMath>
     </div>
