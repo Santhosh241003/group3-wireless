@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
-import MathJax from 'react-mathjax';
 
 const FreeSpaceFixed = () => {
-  const canvasRef = useRef<SVGSVGElement | null>(null);
+  // Properly type the ref as an SVGSVGElement
+  const canvasRef = useRef<SVGSVGElement>(null);
   const [frequency, setFrequency] = useState(2);
   const [velocity, setVelocity] = useState(0);
   const [distance, setDistance] = useState(100);
@@ -11,7 +11,11 @@ const FreeSpaceFixed = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (canvasRef.current) {
-        const waves = canvasRef.current.querySelectorAll('.wave');
+        // Type assertion to ensure TypeScript knows we're working with an SVGElement
+        const waves = Array.from(canvasRef.current.getElementsByClassName('wave')).filter(
+          (element): element is SVGCircleElement => element instanceof SVGCircleElement
+        );
+
         waves.forEach((wave) => {
           const currentOpacity = parseFloat(wave.getAttribute('opacity') || '1');
           if (currentOpacity <= 0.1) {
@@ -32,7 +36,7 @@ const FreeSpaceFixed = () => {
     <div className="relative">
       <h2 className="text-xl font-semibold mb-4">Free Space, Fixed Transmit and Receive Antennas</h2>
       <div className="bg-gray-900 rounded-lg p-4">
-        <svg ref={canvasRef} viewBox="0 0 400 200" className="w-full h-[400px]">
+        <svg ref={canvasRef} viewBox="0 0 400 200" className="w-full h-96">
           {/* Background grid */}
           <defs>
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -61,21 +65,53 @@ const FreeSpaceFixed = () => {
       </div>
 
       {/* Key Points Section */}
-      <MathJax.Provider>
-        <div className="mt-4 text-gray-300">
-          <h3 className="text-lg font-semibold mt-4">Key Points:</h3>
+      <div className="mt-4 space-y-4 text-gray-300">
+        <h3 className="text-lg font-semibold">Key Points:</h3>
+        <div className="space-y-2">
+          <div className="p-2 bg-gray-800 rounded">
+            <p>Transmitted Signal:</p>
+            <code className="block text-sm bg-gray-900 p-2 rounded">
+              A·cos(2πft)
+            </code>
+          </div>
 
-          
-            <MathJax.Node formula={`\\{Transmitted } \\text{Signal} = A \\cdot \\frac{\\cos(2 \\pi f t)`} />
-            <MathJax.Node formula={`\\text{Received } \\text{Signal} = A \\cdot \\frac{\\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`} />
-            <MathJax.Node formula={`\\text{As distance r increases, the electric field strength decreases with }\\frac{1}{r}\\text{, and the power per unit area} \\( |E|^2 \\) decreases as \\( \\frac{1}{r^2} \\)`} />
-            <MathJax.Node formula={`Free-space propagation: Follows a \\frac{1}{r^2} power decay with distance due to spherical spreading.`} />
-          <ul>
-            <li>Linearity: Linear response to transmitted signals.</li>
-            <li>Time Invariance: Holds only when transmit and receive antennas are fixed; obstructions or motion (like Doppler shifts) break this time invariance.</li>
-          </ul>
+          <div className="p-2 bg-gray-800 rounded">
+            <p>Received Signal:</p>
+            <code className="block text-sm bg-gray-900 p-2 rounded">
+              A·cos(2πf(t - r/c))/r
+            </code>
+          </div>
+          <div className="p-2 bg-gray-800 rounded">
+            <p>Where: </p>
+            <ul className="list-disc list-inside text-sm">
+              <p><strong>r</strong> : Distance from transmitter to receiver (meters)</p>
+              <p><strong>f</strong> : Frequency of the transmitted signal (hertz)</p>
+              <p><strong>c</strong> : Speed of light in a vacuum (approx 3 × 10<sup>8</sup> m/s)</p>
+            </ul>
+          </div>
+          <div className="p-2 bg-gray-800 rounded">
+            <p>Electric Field Strength:</p>
+            <p className="text-sm">As distance r increases:</p>
+            <ul className="list-disc list-inside text-sm">
+              <li>Electric field strength decreases with 1/r</li>
+              <li>Power per unit area |E|² decreases as 1/r²</li>
+            </ul>
+          </div>
+
+          <div className="p-2 bg-gray-800 rounded">
+            <p className="font-semibold">Free-space propagation:</p>
+            <p className="text-sm">Follows a 1/r² power decay with distance due to spherical spreading</p>
+          </div>
+
+          <div className="p-2 bg-gray-800 rounded">
+            <p className="font-semibold">Key Properties:</p>
+            <ul className="list-disc list-inside text-sm">
+              <li>Linearity: Linear response to transmitted signals</li>
+              <li>Time Invariance: Holds only when transmit and receive antennas are fixed; obstructions or motion (like Doppler shifts) break this time invariance</li>
+            </ul>
+          </div>
         </div>
-      </MathJax.Provider>
+      </div>
     </div>
   );
 };
