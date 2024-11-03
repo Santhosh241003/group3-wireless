@@ -1,14 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
+import MathJax from 'react-mathjax';
 
-const FreeSpaceMoving = () => {
+const SignalEquations = () => (
+  <MathJax.Provider>
+    <div className="mt-4 text-gray-300">
+      <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
+      
+      {/* Transmitted and Received Signal Equations */}
+      <MathJax.Node formula={`\\text{Transmitted Signal: } E_{\\text{transmit}}(t) = A \\cdot \\cos(2 \\pi f t)`} />
+      <MathJax.Node formula={`\\text{Received Signal: } E_{\\text{receive}}(t, r) = \\frac{A \\cdot \\cos\\left(2 \\pi f \\left(t - \\frac{r}{c}\\right)\\right)}{r}`} />
+
+      {/* Power Density Equation */}
+      <MathJax.Node formula={`\\text{Power Density: } P \\propto \\frac{1}{r^2}`} />
+
+      {/* Explanation of Variables */}
+      <div className="mt-4">
+        <h4 className="text-md font-semibold">Variable Explanations:</h4>
+        <p><strong>r</strong>: Distance from transmitter to receiver (meters)</p>
+        <p><strong>f</strong>: Frequency of the transmitted signal (hertz)</p>
+        <p><strong>A</strong>: Amplitude of the transmitted signal</p>
+        <p><strong>c</strong>: Speed of light in a vacuum (approximately 3 × 10<sup>8</sup> m/s)</p>
+      </div>
+    </div>
+  </MathJax.Provider>
+);
+
+const FreeSpaceFixed = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
-  const [receiverPos, setReceiverPos] = useState(0);
-  const initialPosition = 0;   // Starting position
-  const targetPosition = 200;  // Target position in the x direction
 
   useEffect(() => {
-    const waveInterval = setInterval(() => {
+    const interval = setInterval(() => {
       if (canvasRef.current) {
         const waves = canvasRef.current.querySelectorAll('.wave');
         waves.forEach((wave) => {
@@ -24,25 +46,12 @@ const FreeSpaceMoving = () => {
       }
     }, 50);
 
-    const moveInterval = setInterval(() => {
-      setReceiverPos((prev) => {
-        // Move receiver towards the target; reset to start position if it reaches the target
-        if (prev >= targetPosition) {
-          return initialPosition; // Reset to initial position
-        }
-        return prev + 2; // Move to the right
-      });
-    }, 50);
-
-    return () => {
-      clearInterval(waveInterval);
-      clearInterval(moveInterval);
-    };
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="relative">
-      <h2 className="text-xl font-semibold mb-4">Free Space, Moving Antenna</h2>
+      <h2 className="text-xl font-semibold mb-4">Free Space, Fixed Transmit and Receive Antennas</h2>
       <div className="bg-gray-900 rounded-lg p-4">
         <svg ref={canvasRef} viewBox="0 0 400 200" className="w-full h-[400px]">
           {/* Background grid */}
@@ -62,69 +71,18 @@ const FreeSpaceMoving = () => {
             <circle className="wave" r="90" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.4" />
           </g>
 
-          {/* Moving Receiver */}
-          <g transform={`translate(${100 + receiverPos}, 100)`}>
+          {/* Receiver */}
+          <g transform="translate(300,100)">
             <Radio className="w-6 h-6 text-green-500" />
           </g>
 
           {/* Direct path */}
-          <line 
-            x1="106" 
-            y1="100" 
-            x2={100 + receiverPos} 
-            y2="100" 
-            stroke="rgba(59,130,246,0.5)" 
-            strokeWidth="2" 
-            strokeDasharray="5,5" 
-          />
-
-          {/* Movement path */}
-          <line 
-            x1="100" 
-            y1="100" 
-            x2={100 + receiverPos} 
-            y2="100" 
-            stroke="rgba(34,197,94,0.2)" 
-            strokeWidth="2" 
-          />
+          <line x1="106" y1="100" x2="294" y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
       </div>
-      <div className="mt-4 text-gray-300">
-        {/* Explanation of Concepts */}
-        <h3 className="text-lg font-semibold">Key Concepts:</h3>
-        
-        {/* Position of the Receiver */}
-        <h4 className="text-md font-semibold mt-4">1. Position of the Moving Receiver:</h4>
-        <p className="mb-2">
-          The receiver moves with speed \( v \) away from the transmitter. Its position \( u(t) = (r(t), θ, φ) \) depends on:
-        </p>
-        <ul className="list-disc list-inside mt-2 space-y-1">
-          <li><strong>r(t) = r₀ + vt</strong>: Distance from the transmitter, where \( r₀ \) is the initial distance.</li>
-          <li><strong>θ, φ</strong>: Fixed vertical and horizontal angles, assuming constant antenna orientation.</li>
-        </ul>
-
-        {/* Electric Field at Moving Point */}
-        <h4 className="text-md font-semibold mt-4">2. Electric Field at the Moving Point:</h4>
-        <p className="mb-2">
-          The electric field \( E_f(t, u(t)) \) at this moving observation point is influenced by the time delays:
-        </p>
-        <ul className="list-disc list-inside mt-2 space-y-1">
-          <li><strong>S(θ, φ, f)</strong>: Radiation pattern of the transmitting antenna at frequency \( f \).</li>
-          <li><strong>cos(2πf(t - (r₀/c) - (vt/c)))</strong>: Includes initial delay \( r₀/c \) and delay from motion \( vt/c \).</li>
-        </ul>
-
-        {/* Doppler Shift */}
-        <h4 className="text-md font-semibold mt-4">3. Doppler Shift:</h4>
-        <p className="mb-2">
-          Due to motion, the frequency observed by the receiver changes, showing a Doppler shift:
-        </p>
-        <ul className="list-disc list-inside mt-2 space-y-1">
-          <li><String>f' = f(1 - (v/c))</String>: The effective observed frequency.</li>
-          <li><strong>Doppler shift = -f(v/c)</strong>: The shift amount due to the receiver's velocity.</li>
-        </ul>
-      </div>
+      <SignalEquations />
     </div>
   );
 };
 
-export default FreeSpaceMoving;
+export default FreeSpaceFixed;
