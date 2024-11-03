@@ -31,7 +31,7 @@ function App() {
 
   const calculatePathLoss = (distance: number, frequency: number) => {
     if (distance > 0 && frequency > 0) {
-      return (20 * Math.log10((4 * Math.PI * distance * frequency * 1e9) / 3e8)).toFixed(2);
+      return (20 * Math.log10((4 * Math.PI * distance * frequency * 1e6) / 3e8)).toFixed(2);
     }
     return 'N/A';
   };

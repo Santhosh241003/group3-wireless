@@ -2,6 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
 import { BlockMath } from 'react-katex'; // Importing BlockMath for LaTeX rendering
 
+// Memoized component for displaying equations
+const KeyEquations = React.memo(() => (
+  <div className="mt-4 text-gray-300">
+    <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
+    <div className="mt-2">
+      <BlockMath>{`\\text{Transmitted Signal: } E_t(t) = A \\cos(2 \\pi f t)`}</BlockMath>
+      <BlockMath>{`\\text{Received Signal: } E_r(t, r) = \\frac{S(\\theta, \\phi, f) \\cdot A \\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`}</BlockMath>
+      <BlockMath>{`\\text{Power Density: } P \\propto \\frac{1}{r^2}`}</BlockMath>
+    </div>
+  </div>
+));
+
 const FreeSpaceFixed = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
   const [frequency, setFrequency] = useState(2);
@@ -59,17 +71,7 @@ const FreeSpaceFixed = () => {
           <line x1="106" y1="100" x2="294" y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
       </div>
-      <div className="mt-4 text-gray-300">
-        <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
-        <div className="mt-2">
-          {/* Only one rendering of the transmitted signal equation */}
-          <BlockMath>{`\\text{Transmitted Signal: } E_t(t) = A \\cos(2 \\pi f t)`}</BlockMath>
-          {/* Only one rendering of the received signal equation */}
-          <BlockMath>{`\\text{Received Signal: } E_r(t, r) = \\frac{S(\\theta, \\phi, f) \\cdot A \\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`}</BlockMath>
-          {/* Only one rendering of the power loss proportion */}
-          <BlockMath>{`\\text{Power Density: } P \\propto \\frac{1}{r^2}`}</BlockMath>
-        </div>
-      </div>
+      <KeyEquations />
     </div>
   );
 };
