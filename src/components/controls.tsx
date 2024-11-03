@@ -49,8 +49,8 @@ const Controls = ({
             <input
               type="range"
               min="0"
-              max="100"
-              step="1"
+              max="10000"
+              step="100"
               value={velocity}
               onChange={(e) => setVelocity(parseFloat(e.target.value))}
               className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"

@@ -24,20 +24,23 @@ function App() {
     { id: 'wallMoving', title: 'Reflecting Wall, Moving Antenna' },
   ];
 
+  // Determine if the scenario involves moving antennas
   const isMoving = activeScenario === 'freeMoving' || activeScenario === 'wallMoving';
+
   const hasReflection = activeScenario === 'wallFixed' || activeScenario === 'wallMoving';
 
-  const calculatePathLoss = () => {
+  const calculatePathLoss = (distance: number,frequency: number) => {
     if (distance > 0 && frequency > 0) {
       return (20 * Math.log10((4 * Math.PI * distance * frequency * 1e9) / 3e8)).toFixed(2);
     }
     return 'N/A';
   };
 
-  const calculateDopplerShift = () => {
+  const calculateDopplerShift = (velocity: number,frequency: number) => {
     if (isMoving && velocity && frequency > 0) {
-      return (frequency * velocity / 3e8).toFixed(2);
+      return (frequency *1e6 * velocity / 3e8).toFixed(2);
     }
+
     return '0.00 Hz';
   };
 
@@ -111,7 +114,6 @@ function App() {
               />
             </div>
           </div>
-
         </>
       );
     }
@@ -175,13 +177,13 @@ function App() {
           <div>
             <div className="font-medium mb-1">Path Loss:</div>
             <div className="bg-gray-700 rounded p-2 text-center">
-              {calculatePathLoss()} dB
+              {calculatePathLoss(distance,frequency)} dB
             </div>
           </div>
           <div>
             <div className="font-medium mb-1">Doppler Shift:</div>
             <div className="bg-gray-700 rounded p-2 text-center">
-              {calculateDopplerShift()} Hz
+              {calculateDopplerShift(velocity,frequency)} Hz
             </div>
           </div>
         </div>
