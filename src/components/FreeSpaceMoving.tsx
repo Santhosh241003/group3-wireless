@@ -6,13 +6,8 @@ const SignalEquations = () => (
   <MathJax.Provider>
     <div className="mt-4 text-gray-300">
       <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
-      
-      {/* Transmitted and Received Signal Equations */}
-      <MathJax.Node formula={`\\text{Transmitted Signal: } E_{\\text{transmit}}(t) = A \\cdot \\cos(2 \\pi f t)`} />
-      <MathJax.Node formula={`\\text{Received Signal: } E_{\\text{receive}}(t, r) = \\frac{A \\cdot \\cos\\left(2 \\pi f \\left(t - \\frac{r}{c}\\right)\\right)}{r}`} />
 
-      {/* Power Density Equation */}
-      <MathJax.Node formula={`\\text{Power Density: } P \\propto \\frac{1}{r^2}`} />
+
 
       {/* Explanation of Variables */}
       <div className="mt-4">
@@ -22,6 +17,12 @@ const SignalEquations = () => (
         <p><strong>A</strong>: Amplitude of the transmitted signal</p>
         <p><strong>c</strong>: Speed of light in a vacuum (approximately 3 × 10<sup>8</sup> m/s)</p>
       </div>
+      {/* Transmitted and Received Signal Equations */}
+      <MathJax.Node formula={`\\text{Transmitted Signal: } E_{\\text{transmit}}(t) = A \\cdot \\cos(2 \\pi f t)`} />
+      <MathJax.Node formula={`\\text{Received Signal: } E_{\\text{receive}}(t, r) = \\frac{A \\cdot \\cos\\left(2 \\pi f \\left(t - \\frac{r}{c}\\right)\\right)}{r}`} />
+
+      {/* Power Density Equation */}
+      <MathJax.Node formula={`\\text{Power Density: } P \\propto \\frac{1}{r^2}`} />
     </div>
   </MathJax.Provider>
 );
@@ -57,11 +58,11 @@ const FreeSpaceFixed = () => {
           {/* Background grid */}
           <defs>
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5"/>
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
-          
+
           {/* Transmitter */}
           <g transform="translate(100,100)">
             <Radio className="w-6 h-6 text-blue-500" />
