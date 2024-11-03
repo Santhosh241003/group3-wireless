@@ -7,6 +7,7 @@ import ReflectingWallMoving from './components/ReflectingWallMoving';
 import Controls from './components/controls';
 import WaveformPlot_transmitted from './components/WaveformPlot_transmitted';
 import WaveformPlot_received from './components/WaveformPlot_received';
+import WaveformPlot_received_wall from './components/WaveformPlot_received_wall';
 
 type ScenarioType = 'freeFixed' | 'freeMoving' | 'wallFixed' | 'wallMoving';
 
@@ -26,6 +27,20 @@ function App() {
   const isMoving = activeScenario === 'freeMoving' || activeScenario === 'wallMoving';
   const hasReflection = activeScenario === 'wallFixed' || activeScenario === 'wallMoving';
 
+  const calculatePathLoss = () => {
+    if (distance > 0 && frequency > 0) {
+      return (20 * Math.log10((4 * Math.PI * distance * frequency * 1e9) / 3e8)).toFixed(2);
+    }
+    return 'N/A';
+  };
+
+  const calculateDopplerShift = () => {
+    if (isMoving && velocity && frequency > 0) {
+      return (frequency * velocity / 3e8).toFixed(2);
+    }
+    return '0.00 Hz';
+  };
+
   const renderScenario = () => {
     switch (activeScenario) {
       case 'freeFixed':
@@ -36,12 +51,78 @@ function App() {
         return <ReflectingWallFixed />;
       case 'wallMoving':
         return <ReflectingWallMoving />;
+      default:
+        return null;
     }
+  };
+
+  const renderWaveformPlots = () => {
+    if (activeScenario === 'freeFixed' || activeScenario === 'freeMoving') {
+      return (
+        <>
+          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[450px] shadow-xl">
+            <h2 className="text-xl font-semibold pb-4 text-center">Transmitted Signal Waveform</h2>
+            <div>
+              <WaveformPlot_transmitted
+                frequency={frequency}
+                velocity={velocity}
+                distance={distance}
+                isMoving={isMoving}
+              />
+            </div>
+          </div>
+
+          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[450px] shadow-xl">
+            <h2 className="text-xl font-semibold pb-4 text-center">Received Signal Waveform</h2>
+            <div>
+              <WaveformPlot_received
+                frequency={frequency}
+                velocity={velocity}
+                distance={distance}
+                isMoving={isMoving}
+              />
+            </div>
+          </div>
+        </>
+      );
+    } else if (hasReflection) {
+      return (
+        <>
+          <div className="bg-gray-800 rounded-xl p-6 w-[25%] min-h-[450px] shadow-xl">
+            <h2 className="text-xl font-semibold pb-4 text-center">Transmitted Signal Waveform</h2>
+            <div>
+              <WaveformPlot_transmitted
+                frequency={frequency}
+                velocity={velocity}
+                distance={distance}
+                isMoving={isMoving}
+              />
+            </div>
+          </div>
+
+          <div className="bg-gray-800 rounded-xl p-6 w-[25%] min-h-[450px] shadow-xl">
+            <h2 className="text-xl font-semibold pb-4 text-center">Reflected Signal Waveform</h2>
+            <div>
+              <WaveformPlot_received_wall
+                frequency={frequency}
+                velocity={velocity}
+                distance={distance}
+                isMoving={isMoving}
+              />
+            </div>
+          </div>
+
+        </>
+      );
+    }
+    return null;
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
       <div className="max-w-6xl mx-auto">
+
+        {/* Header */}
         <header className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Radio className="w-8 h-8 text-blue-400" />
@@ -57,11 +138,10 @@ function App() {
             <button
               key={scenario.id}
               onClick={() => setActiveScenario(scenario.id as ScenarioType)}
-              className={`p-4 rounded-lg transition-all duration-300 ${
-                activeScenario === scenario.id
-                  ? 'bg-blue-600 shadow-lg shadow-blue-500/50'
-                  : 'bg-gray-700 hover:bg-gray-600'
-              }`}
+              className={`p-4 rounded-lg transition-all duration-300 ${activeScenario === scenario.id
+                ? 'bg-blue-600 shadow-lg shadow-blue-500/50'
+                : 'bg-gray-700 hover:bg-gray-600'
+                }`}
             >
               <span className="text-sm font-medium">{scenario.title}</span>
             </button>
@@ -83,44 +163,26 @@ function App() {
             distance={distance}
             setDistance={setDistance}
           />
-        {/* Row 4: Waveform Plots for Transmitted and Received Signals */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Transmitted Signal Waveform */}
-          <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-            <h2 className="text-xl font-semibold mb-4 text-center">Transmitted Signal Waveform</h2>
-            <WaveformPlot_transmitted
-              frequency={frequency}
-              velocity={velocity}
-              distance={distance}
-              isMoving={isMoving}
-            />
-          </div>
-
-          {/* Received Signal Waveform */}
-          <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-            <h2 className="text-xl font-semibold mb-4 text-center">Received Signal Waveform</h2>
-            <WaveformPlot_received
-              frequency={frequency}
-              velocity={velocity}
-              distance={distance}
-              isMoving={isMoving}
-            />
-            <div className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-300">
-            <div>
-              <div className="font-medium mb-1">Path Loss:</div>
-              <div className="bg-gray-700 rounded p-2">
-                {(20 * Math.log10(4 * Math.PI * distance * frequency * 1e9 / 3e8)).toFixed(2)} dB
-              </div>
-            </div>
-            <div>
-              <div className="font-medium mb-1">Doppler Shift:</div>
-              <div className="bg-gray-700 rounded p-2">
-                {isMoving ? (frequency * velocity / 3e8).toFixed(2) : '0.00'} Hz
-              </div>
-            </div>
-          </div>
         </div>
 
+        {/* Waveform Plots for Transmitted, Received, Reflected, and Combined Signals */}
+        <div className="flex flex-wrap justify-between">
+          {renderWaveformPlots()}
+        </div>
+
+        {/* Path Loss and Doppler Shift Info */}
+        <div className="mt-6 grid grid-cols-2 gap-4 text-sm max-w-6xl mx-auto text-gray-300">
+          <div>
+            <div className="font-medium mb-1">Path Loss:</div>
+            <div className="bg-gray-700 rounded p-2 text-center">
+              {calculatePathLoss()} dB
+            </div>
+          </div>
+          <div>
+            <div className="font-medium mb-1">Doppler Shift:</div>
+            <div className="bg-gray-700 rounded p-2 text-center">
+              {calculateDopplerShift()} Hz
+            </div>
           </div>
         </div>
       </div>

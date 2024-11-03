@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* App.css or styles.css */
+.waveform-container {
+    background-color: #1f2937; /* Equivalent to bg-gray-800 */
+    border-radius: 1rem; /* Equivalent to rounded-xl */
+    padding: 1.5rem; /* Equivalent to p-6 */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); /* Equivalent to shadow-xl */
+  }
+  

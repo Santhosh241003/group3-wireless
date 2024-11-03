@@ -69,7 +69,7 @@ const Controls = ({
             <input
               type="range"
               min="10"
-              max="400"
+              max="300"
               step="10"
               value={distance}
               onChange={(e) => setDistance(parseFloat(e.target.value))}
