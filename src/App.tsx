@@ -7,6 +7,7 @@ import ReflectingWallMoving from './components/ReflectingWallMoving';
 import Controls from './components/controls';
 import WaveformPlot_transmitted from './components/WaveformPlot_transmitted';
 import WaveformPlot_received from './components/WaveformPlot_received';
+
 type ScenarioType = 'freeFixed' | 'freeMoving' | 'wallFixed' | 'wallMoving';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
           <p className="text-gray-300">Interactive visualization and calculation of radio wave propagation scenarios</p>
         </header>
 
+        {/* Scenario Selection Buttons */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {scenarios.map((scenario) => (
             <button
@@ -66,54 +68,58 @@ function App() {
           ))}
         </div>
 
-        
+        {/* Main Content */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
+            {renderScenario()}
+          </div>
+          <div className="space-y-6">
+            <Controls
+              frequency={frequency}
+              setFrequency={setFrequency}
+              velocity={velocity}
+              setVelocity={setVelocity}
+              distance={distance}
+              setDistance={setDistance}
+            />
 
-          <div className="grid md:grid-cols-2 gap-6">
+            {/* Transmitted Signal Waveform */}
             <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-              {renderScenario()}
-            </div>
-            <div className="space-y-6">
-          <Controls
-            frequency={frequency}
-            setFrequency={setFrequency}
-            velocity={velocity}
-            setVelocity={setVelocity}
-            distance={distance}
-            setDistance={setDistance}
-          />
-            <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-              <h2 className="text-xl font-semibold mb-4">Transmitted Signal Waveform</h2>
+              <h2 className="text-xl font-semibold mb-4 text-center">Transmitted Signal Waveform</h2>
               <WaveformPlot_transmitted
                 frequency={frequency}
                 velocity={velocity}
                 distance={distance}
                 isMoving={isMoving}
               />
-              <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
-              <h2 className="text-xl font-semibold mb-4">Received Signal Waveform</h2>
+            </div>
+
+            {/* Received Signal Waveform */}
+            <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
+              <h2 className="text-xl font-semibold mb-4 text-center">Received Signal Waveform</h2>
               <WaveformPlot_received
                 frequency={frequency}
                 velocity={velocity}
                 distance={distance}
                 isMoving={isMoving}
               />
-              <div className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-300">
-                <div>
-                  <div className="font-medium mb-1">Path Loss:</div>
-                  <div className="bg-gray-700 rounded p-2">
-                    {(20 * Math.log10(4 * Math.PI * distance * frequency * 1e9 / 3e8)).toFixed(2)} dB
-                  </div>
+            </div>
+
+            {/* Path Loss and Doppler Shift Info */}
+            <div className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-300">
+              <div>
+                <div className="font-medium mb-1">Path Loss:</div>
+                <div className="bg-gray-700 rounded p-2">
+                  {(20 * Math.log10(4 * Math.PI * distance * frequency * 1e9 / 3e8)).toFixed(2)} dB
                 </div>
-                <div>
-                  <div className="font-medium mb-1">Doppler Shift:</div>
-                  <div className="bg-gray-700 rounded p-2">
-                    {isMoving ? (frequency * velocity / 3e8).toFixed(2) : '0.00'} Hz
-                  </div>
+              </div>
+              <div>
+                <div className="font-medium mb-1">Doppler Shift:</div>
+                <div className="bg-gray-700 rounded p-2">
+                  {isMoving ? (frequency * velocity / 3e8).toFixed(2) : '0.00'} Hz
                 </div>
-                
               </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
