@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
-import { BlockMath } from 'react-katex';
-import 'katex/dist/katex.min.css'; // Importing KaTeX CSS
+import MathJax from 'react-mathjax';
 
 const FreeSpaceFixed = () => {
   const canvasRef = useRef<SVGSVGElement | null>(null);
@@ -37,11 +36,11 @@ const FreeSpaceFixed = () => {
           {/* Background grid */}
           <defs>
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5"/>
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
-          
+
           {/* Transmitter */}
           <g transform="translate(100,100)">
             <Radio className="w-6 h-6 text-blue-500" />
@@ -62,26 +61,19 @@ const FreeSpaceFixed = () => {
       </div>
 
       {/* Key Points Section */}
-      <div className="mt-4 text-gray-300">
-        <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
-        
-        <div className="mt-2 mb-4">
-          {/* Main Equation */}
-          <BlockMath math={`E_f(t, r, \\theta, \\phi) = S(\\theta, \\phi, f) \\cdot \\cos(2 \\pi f(t - \\frac{r}{c})) / r`} />
-
-          <p className="mb-2">
-            As the distance <span className="inline math">r</span> increases, the electric field strength decreases with <span className="inline math">\\frac{1}{`r`}</span>, 
-            and the power per unit area <span className="inline math">|E|^2</span> decreases as <span className="inline math">\\frac{1}{`r^2`}</span>.
-          </p>
-
-          {/* Points */}
-          <ul className="list-disc ml-6">
-            <li><span className="font-semibold">Free-space propagation:</span> Follows a <span className="inline math">\\frac{1}{`r^2`}</span> power decay with distance due to spherical spreading.</li>
-            <li><span className="font-semibold">Linearity:</span> The system responds linearly to transmitted signals.</li>
-            <li><span className="font-semibold">Time Invariance:</span> Holds only when transmit and receive antennas are fixed; obstructions or motion (e.g., Doppler shifts) can break time invariance.</li>
+      <MathJax.Provider>
+        <div className="mt-4 text-gray-300">
+          <h3 className="text-lg font-semibold mt-4">Key Points:</h3>
+            <MathJax.Node formula={`\\text{Transmitted } \\text{Signal} = A \\cdot \\frac{\\cos(2 \\pi f t) `} />
+            <MathJax.Node formula={`\\text{Received } \\text{Signal} = A \\cdot \\frac{\\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`} />
+            <MathJax.Node formula={`\\text{As distance r increases, the electric field strength decreases with }\\frac{1}{r}\\text{, and the power per unit area} \\( |E|^2 \\) decreases as \\( \\frac{1}{r^2} \\)`} />
+            <MathJax.Node formula={`Free-space propagation: Follows a \\frac{1}{r^2} power decay with distance due to spherical spreading.`} />
+          <ul>
+            <li>Linearity: Linear response to transmitted signals.</li>
+            <li>Time Invariance: Holds only when transmit and receive antennas are fixed; obstructions or motion (like Doppler shifts) break this time invariance.</li>
           </ul>
         </div>
-      </div>
+      </MathJax.Provider>
     </div>
   );
 };
