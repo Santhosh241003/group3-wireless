@@ -1,52 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
-import MathJax from 'react-mathjax';
-
-const KeyEquations = React.memo(() => (
-  <MathJax.Provider>
-    <div className="mt-4 text-gray-300">
-      <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
-      
-      {/* Linearity and Time Invariance Explanations */}
-      <div className="mt-2 mb-4">
-        <h4 className="text-md font-semibold">Linearity:</h4>
-        <p className="mb-2">
-          The system has a linear response to transmitted signals, meaning that the output is proportional to the input.
-        </p>
-        <h4 className="text-md font-semibold">Time Invariance:</h4>
-        <p className="mb-2">
-          Time invariance holds only when transmit and receive antennas are fixed. Any obstructions or motion (like Doppler shifts) can break this time invariance.
-        </p>
-      </div>
-
-      {/* Equations */}
-      <MathJax.Node formula={`\\text{Transmitted Signal: } E_t(t) = A\\cdot  \\cos(2 \\pi f t)`} />
-      <MathJax.Node formula={`\\text{Received Signal: } E_r(t, r) = \\frac{A\\cdot  \\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`} />
-      <MathJax.Node formula={`\\text{Power Density: } P \\propto \\frac{1}{r^2}`} />
-      
-      {/* Definitions for r and f */}
-      <div className="mt-4 mb-4">
-        <h4 className="text-md font-semibold">Distance (r):</h4>
-        <p className="mb-2">
-          Represents the distance from the signal source to the receiver, measured in meters (m).
-        </p>
-        <h4 className="text-md font-semibold">Frequency (f):</h4>
-        <p className="mb-2">
-          Represents the frequency of the signal, indicating the number of oscillations per second, measured in hertz (Hz).
-        </p>
-      </div>
-    </div>
-  </MathJax.Provider>
-));
 
 const FreeSpaceFixed = () => {
-  const canvasRef = useRef<SVGSVGElement>(null);
+  // Explicitly set the type of canvasRef as SVGSVGElement or null.
+  const canvasRef = useRef<SVGSVGElement | null>(null);
   const [frequency, setFrequency] = useState(2);
   const [velocity, setVelocity] = useState(0);
   const [distance, setDistance] = useState(100);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      // Check if canvasRef.current exists and has the expected type
       if (canvasRef.current) {
         const waves = canvasRef.current.querySelectorAll('.wave');
         waves.forEach((wave) => {
@@ -96,7 +60,6 @@ const FreeSpaceFixed = () => {
           <line x1="106" y1="100" x2="294" y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
       </div>
-      <KeyEquations />
     </div>
   );
 };
