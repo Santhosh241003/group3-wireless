@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
+import { BlockMath } from 'react-katex';
+import 'katex/dist/katex.min.css'; // Importing KaTeX CSS
 
 const FreeSpaceFixed = () => {
-  // Explicitly set the type of canvasRef as SVGSVGElement or null.
   const canvasRef = useRef<SVGSVGElement | null>(null);
   const [frequency, setFrequency] = useState(2);
   const [velocity, setVelocity] = useState(0);
@@ -10,7 +11,6 @@ const FreeSpaceFixed = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Check if canvasRef.current exists and has the expected type
       if (canvasRef.current) {
         const waves = canvasRef.current.querySelectorAll('.wave');
         waves.forEach((wave) => {
@@ -67,18 +67,16 @@ const FreeSpaceFixed = () => {
         
         <div className="mt-2 mb-4">
           {/* Main Equation */}
+          <BlockMath math={`E_f(t, r, \\theta, \\phi) = S(\\theta, \\phi, f) \\cdot \\cos(2 \\pi f(t - \\frac{r}{c})) / r`} />
+
           <p className="mb-2">
-            <span className="font-semibold">Electric Field Strength:</span> 
-            {" "}Ef(t, r, θ, φ) = S(θ, φ, f) * cos(2πf(t - r/c)) / r
-          </p>
-          <p className="mb-2">
-            As the distance <i>r</i> increases, the electric field strength decreases with <i>1/r</i>, 
-            and the power per unit area |E|<sup>2</sup> decreases as <i>1/r<sup>2</sup></i>.
+            As the distance <span className="inline math">r</span> increases, the electric field strength decreases with <span className="inline math">\\frac{1}{`r`}</span>, 
+            and the power per unit area <span className="inline math">|E|^2</span> decreases as <span className="inline math">\\frac{1}{`r^2`}</span>.
           </p>
 
           {/* Points */}
           <ul className="list-disc ml-6">
-            <li><span className="font-semibold">Free-space propagation:</span> Follows a <i>1/r<sup>2</sup></i> power decay with distance due to spherical spreading.</li>
+            <li><span className="font-semibold">Free-space propagation:</span> Follows a <span className="inline math">\\frac{1}{`r^2`}</span> power decay with distance due to spherical spreading.</li>
             <li><span className="font-semibold">Linearity:</span> The system responds linearly to transmitted signals.</li>
             <li><span className="font-semibold">Time Invariance:</span> Holds only when transmit and receive antennas are fixed; obstructions or motion (e.g., Doppler shifts) can break time invariance.</li>
           </ul>
