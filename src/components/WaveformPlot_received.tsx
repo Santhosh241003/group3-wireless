@@ -16,7 +16,6 @@ const WaveformPlot_received: React.FC<WaveformPlotProps> = ({
   distance,
   isMoving,
 }) => {
-    console.log('isMoving:', isMoving);
   // Constants
   const c = 3e8; // Speed of light in m/s
   const omega = 2 * Math.PI * frequency * 1e6; // Angular frequency in rad/s
@@ -30,6 +29,7 @@ const WaveformPlot_received: React.FC<WaveformPlotProps> = ({
     const r0 = distance; // Initial distance
     const effectiveVelocity = isMoving ? velocity : 0; // Use velocity only if moving
     const term = (r0 + effectiveVelocity * t); // Denominator term
+    console.log(":term",t)
     return Math.cos(omega * (t - (r0 / c) - (effectiveVelocity * t / c))) / term; // Received signal calculation
   });
 
