@@ -13,8 +13,9 @@ const SignalEquations = () => (
         <p><strong>f</strong>: Frequency of the transmitted signal (hertz)</p>
         <p><strong>A</strong>: Amplitude of the transmitted signal</p>
         <p><strong>c</strong>: Speed of light in a vacuum (approximately 3 × 10<sup>8</sup> m/s)</p>
-        {/* Transmitted and Received Signal Equations */}
         
+        {/* Transmitted and Received Signal Equations */}
+
         <MathJax.Node formula={`\\text{Transmitted Signal: } E_{\\text{transmit}}(t) = A \\cdot \\cos(2 \\pi f t)`} />
         <MathJax.Node formula={`\\text{Received Signal: } E_{\\text{receive}}(t, r) = \\frac{A \\cdot \\cos\\left(2 \\pi f \\left(t - \\frac{r}{c}\\right)\\right)}{r}`} />
         <MathJax.Node formula={`\\text{Power Density: } P \\propto \\frac{1}{r^2}`} />
