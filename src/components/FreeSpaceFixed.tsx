@@ -1,19 +1,42 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
-import { BlockMath } from 'react-katex'; // Importing BlockMath for LaTeX rendering
+import MathJax from 'react-mathjax';
 
-// Memoized component for displaying equations
 const KeyEquations = React.memo(() => (
-  <div className="mt-4 text-gray-300">
-    <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
-    <div className="mt-2">
-    <div className="p-2 bg-gray-800 rounded">
-        Transmitted Signal: Et(t) = A cos(2πft)
+  <MathJax.Provider>
+    <div className="mt-4 text-gray-300">
+      <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
+      
+      {/* Linearity and Time Invariance Explanations */}
+      <div className="mt-2 mb-4">
+        <h4 className="text-md font-semibold">Linearity:</h4>
+        <p className="mb-2">
+          The system has a linear response to transmitted signals, meaning that the output is proportional to the input.
+        </p>
+        <h4 className="text-md font-semibold">Time Invariance:</h4>
+        <p className="mb-2">
+          Time invariance holds only when transmit and receive antennas are fixed. Any obstructions or motion (like Doppler shifts) can break this time invariance.
+        </p>
       </div>
-      <BlockMath>{`\\text{Received Signal: } E_r(t, r) = \\frac{S(\\theta, \\phi, f) \\cdot A \\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`}</BlockMath>
-      <BlockMath>{`\\text{Power Density: } P \\propto \\frac{1}{r^2}`}</BlockMath>
+
+      {/* Equations */}
+      <MathJax.Node formula={`\\text{Transmitted Signal: } E_t(t) = A\\cdot  \\cos(2 \\pi f t)`} />
+      <MathJax.Node formula={`\\text{Received Signal: } E_r(t, r) = \\frac{A\\cdot  \\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`} />
+      <MathJax.Node formula={`\\text{Power Density: } P \\propto \\frac{1}{r^2}`} />
+      
+      {/* Definitions for r and f */}
+      <div className="mt-4 mb-4">
+        <h4 className="text-md font-semibold">Distance (r):</h4>
+        <p className="mb-2">
+          Represents the distance from the signal source to the receiver, measured in meters (m).
+        </p>
+        <h4 className="text-md font-semibold">Frequency (f):</h4>
+        <p className="mb-2">
+          Represents the frequency of the signal, indicating the number of oscillations per second, measured in hertz (Hz).
+        </p>
+      </div>
     </div>
-  </div>
+  </MathJax.Provider>
 ));
 
 const FreeSpaceFixed = () => {
