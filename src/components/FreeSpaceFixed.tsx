@@ -15,7 +15,7 @@ const FreeSpaceFixed = () => {
         const waves = Array.from(canvasRef.current.getElementsByClassName('wave')).filter(
           (element): element is SVGCircleElement => element instanceof SVGCircleElement
         );
-        
+
         waves.forEach((wave) => {
           const currentOpacity = parseFloat(wave.getAttribute('opacity') || '1');
           if (currentOpacity <= 0.1) {
@@ -74,14 +74,21 @@ const FreeSpaceFixed = () => {
               A·cos(2πft)
             </code>
           </div>
-          
+
           <div className="p-2 bg-gray-800 rounded">
             <p>Received Signal:</p>
             <code className="block text-sm bg-gray-900 p-2 rounded">
               A·cos(2πf(t - r/c))/r
             </code>
           </div>
-          
+          <div className="p-2 bg-gray-800 rounded">
+            <p>Where: </p>
+            <ul className="list-disc list-inside text-sm">
+              <p><strong>r</strong> : Distance from transmitter to receiver (meters)</p>
+              <p><strong>f</strong> : Frequency of the transmitted signal (hertz)</p>
+              <p><strong>c</strong> : Speed of light in a vacuum (approx 3 × 10<sup>8</sup> m/s)</p>
+            </ul>
+          </div>
           <div className="p-2 bg-gray-800 rounded">
             <p>Electric Field Strength:</p>
             <p className="text-sm">As distance r increases:</p>
