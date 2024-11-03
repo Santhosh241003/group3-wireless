@@ -88,7 +88,7 @@ function App() {
     } else if (hasReflection) {
       return (
         <>
-          <div className="bg-gray-800 rounded-xl p-6 w-[25%] min-h-[450px] shadow-xl">
+          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[450px] shadow-xl">
             <h2 className="text-xl font-semibold pb-4 text-center">Transmitted Signal Waveform</h2>
             <div>
               <WaveformPlot_transmitted
@@ -100,7 +100,7 @@ function App() {
             </div>
           </div>
 
-          <div className="bg-gray-800 rounded-xl p-6 w-[25%] min-h-[450px] shadow-xl">
+          <div className="bg-gray-800 rounded-xl p-6 w-[50%] min-h-[450px] shadow-xl">
             <h2 className="text-xl font-semibold pb-4 text-center">Reflected Signal Waveform</h2>
             <div>
               <WaveformPlot_received_wall

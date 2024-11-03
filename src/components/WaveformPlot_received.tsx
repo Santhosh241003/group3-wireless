@@ -24,11 +24,12 @@ const WaveformPlot_received: React.FC<WaveformPlotProps> = ({
   const numPoints = 200; // Number of points for the plot
   const x = Array.from({ length: numPoints }, (_, i) => i / (10 * 100 * 1e6)); // Time array
 
-  // Calculate received signal values using the modified equation
+  // Calculate received signal values
   const y = x.map((t) => {
     const r0 = distance; // Initial distance
-    const term = (r0 + velocity * t); // Denominator term
-    return Math.cos(omega * (t - (r0 / c) - (velocity * t / c))) / term; // Received signal calculation
+    const effectiveVelocity = isMoving ? velocity : 0; // Use velocity only if moving
+    const term = (r0 + effectiveVelocity * t); // Denominator term
+    return Math.cos(omega * (t - (r0 / c) - (effectiveVelocity * t / c))) / term; // Received signal calculation
   });
 
   return (
