@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
-import Controls from './controls';
-import WaveformPlot from './WaveformPlot_transmitted';
 import { BlockMath } from 'react-katex'; // Importing BlockMath for LaTeX rendering
 
 const FreeSpaceFixed = () => {
@@ -9,7 +7,7 @@ const FreeSpaceFixed = () => {
   const [frequency, setFrequency] = useState(2);
   const [velocity, setVelocity] = useState(0);
   const [distance, setDistance] = useState(100);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (canvasRef.current) {
@@ -62,24 +60,14 @@ const FreeSpaceFixed = () => {
         </svg>
       </div>
       <div className="mt-4 text-gray-300">
-        <p>In this scenario, both transmitter and receiver antennas are fixed in free space:</p>
-        <ul className="list-disc list-inside mt-2 space-y-1">
-          <li>Direct line-of-sight propagation</li>
-          <li>No reflections or obstacles</li>
-          <li>Ideal propagation conditions</li>
-          <li>Signal strength follows inverse square law</li>
-        </ul>
         <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
         <div className="mt-2">
-          <BlockMath>{`E_f(t, r, \\theta, \\phi) = \\frac{S(\\theta, \\phi, f) \\cdot \\cos(2\\pi f(t - \\frac{r}{c}))}{r}`}</BlockMath>
-          <BlockMath>{`P \\propto \\frac{1}{r^2}`}</BlockMath>
-        </div>
-        <h3 className="text-lg font-semibold mt-4">Path Loss Calculation:</h3>
-        <div className="mt-2">
-          <BlockMath>{`L(d) = 10 \\log_{10}\\left(\\frac{P_t}{P_r}\\right) = 20 \\log_{10}(d) + 20 \\log_{10}(f) + K`}</BlockMath>
-          <p className="text-sm text-gray-400">
-            Where \(P_t\) is the transmitted power, \(P_r\) is the received power, \(d\) is the distance, \(f\) is the frequency, and \(K\) is a constant that accounts for system losses.
-          </p>
+          {/* Only one rendering of the transmitted signal equation */}
+          <BlockMath>{`\\text{Transmitted Signal: } E_t(t) = A \\cos(2 \\pi f t)`}</BlockMath>
+          {/* Only one rendering of the received signal equation */}
+          <BlockMath>{`\\text{Received Signal: } E_r(t, r) = \\frac{S(\\theta, \\phi, f) \\cdot A \\cos(2 \\pi f (t - \\frac{r}{c}))}{r}`}</BlockMath>
+          {/* Only one rendering of the power loss proportion */}
+          <BlockMath>{`\\text{Power Density: } P \\propto \\frac{1}{r^2}`}</BlockMath>
         </div>
       </div>
     </div>
