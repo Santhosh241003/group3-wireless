@@ -123,7 +123,6 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
       <div className="max-w-6xl mx-auto">
-
         {/* Header */}
         <header className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
@@ -160,11 +159,11 @@ function App() {
           <Controls
             frequency={frequency}
             setFrequency={setFrequency}
-            velocity={velocity}
+            velocity={isMoving ? velocity : 0} // Set velocity to 0 if the scenario is not moving
             setVelocity={setVelocity}
             distance={distance}
-            setDistance={setDistance}
-          />
+            setDistance={setDistance} 
+            isMoving={isMoving}          />
         </div>
 
         {/* Waveform Plots for Transmitted, Received, Reflected, and Combined Signals */}

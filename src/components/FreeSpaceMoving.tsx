@@ -1,45 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
 
-const SignalEquations = () => (
-  <div className="mt-4 text-gray-300">
-    <h3 className="text-lg font-semibold mt-4">Key Equations:</h3>
-    
-    {/* Explanation of Variables */}
-    <div className="mt-4">
-      
-      {/* Transmitted and Received Signal Equations */}
-      <div className="space-y-2">
-        <div className="p-2 bg-gray-800 rounded">
-          <p>Transmitted Signal:</p>
-          <code className="block text-sm bg-gray-900 p-2 rounded">
-            A · cos(2πft)
-          </code>
-        </div>
-        <div className="p-2 bg-gray-800 rounded">
-          <p>Received Signal:</p>
-          <code className="block text-sm bg-gray-900 p-2 rounded">
-            A · cos(2πf(t - r/c - vt/c)) / (r + vt)
-          </code>
-        </div>
-      </div>
-      <h4 className="text-md font-semibold">Variable Explanations:</h4>
-      <p><strong>r</strong>: Distance from transmitter to receiver (meters)</p>
-      <p><strong>f</strong>: Frequency of the transmitted signal (hertz)</p>
-      <p><strong>A</strong>: Amplitude of the transmitted signal</p>
-      <p><strong>v</strong>: Velocity of  the receiver</p>
-      <p><strong>c</strong>: Speed of light in a vacuum (approximately 3 × 10<sup>8</sup> m/s)</p>
-    </div>
-  </div>
-);
-
-const FreeSpaceFixed = () => {
+const FreeSpaceMoving = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
+  const [frequency, setFrequency] = useState(2);
+  const [velocity, setVelocity] = useState(1); // Speed of the receiver
+  const [receiverPosition, setReceiverPosition] = useState(300); // Initial position of the receiver
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (canvasRef.current) {
-        const waves = canvasRef.current.querySelectorAll('.wave');
+        const waves = Array.from(canvasRef.current.getElementsByClassName('wave')).filter(
+          (element): element is SVGCircleElement => element instanceof SVGCircleElement
+        );
+
         waves.forEach((wave) => {
           const currentOpacity = parseFloat(wave.getAttribute('opacity') || '1');
           if (currentOpacity <= 0.1) {
@@ -50,17 +24,24 @@ const FreeSpaceFixed = () => {
             wave.setAttribute('opacity', `${currentOpacity - 0.02}`);
           }
         });
+
+        // Update receiver position to move towards the right
+        setReceiverPosition((prev) => {
+          const newPosition = prev + 2;
+          // Stop at the SVG boundary (400) or wrap around
+          return newPosition > 300 ? 106 : newPosition;
+        });
       }
     }, 50);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [velocity]);
 
   return (
     <div className="relative">
-      <h2 className="text-xl font-semibold mb-4">Free Space, Fixed Transmit and Receive Antennas</h2>
+      <h2 className="text-xl font-semibold mb-4">Free Space, Fixed Transmit and Moving Receiver Antenna</h2>
       <div className="bg-gray-900 rounded-lg p-4">
-        <svg ref={canvasRef} viewBox="0 0 400 200" className="w-full h-[400px]">
+        <svg ref={canvasRef} viewBox="0 0 400 200" className="w-full h-96">
           {/* Background grid */}
           <defs>
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -78,18 +59,85 @@ const FreeSpaceFixed = () => {
             <circle className="wave" r="90" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.4" />
           </g>
 
-          {/* Receiver */}
-          <g transform="translate(300,100)">
+          {/* Receiver (moving to the right) */}
+          <g transform={`translate(${receiverPosition},100)`}>
             <Radio className="w-6 h-6 text-green-500" />
           </g>
 
           {/* Direct path */}
-          <line x1="106" y1="100" x2="294" y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="106" y1="100" x2={receiverPosition} y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
       </div>
-      <SignalEquations />
+
+      {/* Key Points Section */}
+      <div className="mt-4 space-y-4 text-gray-300">
+        <h3 className="text-lg font-semibold">Key Points:</h3>
+        <div className="space-y-2">
+          <div className="p-2 bg-gray-800 rounded">
+            <p>Transmitted Signal:</p>
+            <code className="block text-sm bg-gray-900 p-2 rounded">
+              Ef(t) = cos(2πft)
+            </code>
+          </div>
+
+          <div className="p-2 bg-gray-800 rounded">
+            <p>Received Signal:</p>
+            <code className="block text-sm bg-gray-900 p-2 rounded">
+              Er(t) = (G(f) / (r₀ + vt)) * cos(2πf(t – ((r₀ - vt) / c)))
+            </code>
+          </div>
+
+          <div className="p-2 bg-gray-800 rounded">
+            <p>Where:</p>
+            <ul className="list-disc list-inside text-sm">
+              <li><strong>r₀</strong>: Initial distance between transmitter and receiver (meters)</li>
+              <li><strong>v</strong>: Velocity of the receiver</li>
+              <li><strong>f</strong>: Frequency of the transmitted signal (hertz)</li>
+              <li><strong>c</strong>: Speed of light in a vacuum (approx 3 × 10<sup>8</sup> m/s)</li>
+            </ul>
+          </div>
+
+          <div className="p-2 bg-gray-800 rounded">
+            <p>Doppler Shift:</p>
+            <p className="text-sm">Rewriting f(t - (r₀/c) - (vt/c)) as:</p>
+            <code className="block text-sm bg-gray-900 p-2 rounded">
+              f((1 - (v/c))t - (r₀/c))
+            </code>
+            <p className="text-sm mt-2">This shows a Doppler shift in frequency due to motion. The effective frequency observed at the moving antenna becomes:</p>
+            <code className="block text-sm bg-gray-900 p-2 rounded">
+              f' = f(1 - (v/c))
+            </code>
+            <p className="text-sm mt-2">Doppler shift:</p>
+            <code className="block text-sm bg-gray-900 p-2 rounded">
+              -f(v/c)
+            </code>
+          </div>
+
+          <div className="p-2 bg-gray-800 rounded">
+            <p className="font-semibold">Time-Variance of the Channel:</p>
+            <p className="text-sm">This channel cannot be represented as an LTI channel due to:</p>
+            <ul className="list-disc list-inside text-sm">
+              <li>Time-varying attenuation: 1/(r₀ + vt) changes over time.</li>
+              <li>Doppler Shift: Frequency f is shifted by -f(v/c), which depends on f.</li>
+            </ul>
+            <p className="text-sm mt-2">By ignoring the time-varying attenuation in 1/(r₀ + vt), we can approximate the channel with a system function followed by a Doppler-shifted frequency:</p>
+            <code className="block text-sm bg-gray-900 p-2 rounded">
+              f' = f - (f(v/c))
+            </code>
+          </div>
+
+          <div className="p-2 bg-gray-800 rounded">
+            <p className="font-semibold">Key Points:</p>
+            <ul className="list-disc list-inside text-sm">
+              <li>Doppler Shift: Occurs due to relative motion and changes the observed frequency, f' = f(1 - (v/c)).</li>
+              <li>Time-varying Attenuation: Due to r(t) = r₀ + vt, leading to a changing 1/(r₀ + vt) factor in signal strength.</li>
+              <li>Relative Motion: The same equations apply if either the transmitter or receiver is moving, as long as r(t) is the distance between them and antenna orientations are constant.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default FreeSpaceFixed;
+export default FreeSpaceMoving;

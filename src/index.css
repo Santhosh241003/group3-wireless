@@ -9,4 +9,7 @@
     padding: 1.5rem; /* Equivalent to p-6 */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); /* Equivalent to shadow-xl */
   }
+.text-container {
+    font-family: "Times New Roman", Times, serif;
+  }
   

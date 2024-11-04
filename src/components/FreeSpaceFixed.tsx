@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Radio } from 'lucide-react';
 
@@ -81,33 +82,13 @@ const FreeSpaceFixed = () => {
               A·cos(2πf(t - r/c))/r
             </code>
           </div>
-          <div className="p-2 bg-gray-800 rounded">
-            <p>Where: </p>
-            <ul className="list-disc list-inside text-sm">
-              <p><strong>r</strong> : Distance from transmitter to receiver (meters)</p>
-              <p><strong>f</strong> : Frequency of the transmitted signal (hertz)</p>
-              <p><strong>c</strong> : Speed of light in a vacuum (approx 3 × 10<sup>8</sup> m/s)</p>
-            </ul>
-          </div>
-          <div className="p-2 bg-gray-800 rounded">
-            <p>Electric Field Strength:</p>
-            <p className="text-sm">As distance r increases:</p>
-            <ul className="list-disc list-inside text-sm">
-              <li>Electric field strength decreases with 1/r</li>
-              <li>Power per unit area |E|² decreases as 1/r²</li>
-            </ul>
-          </div>
 
           <div className="p-2 bg-gray-800 rounded">
-            <p className="font-semibold">Free-space propagation:</p>
-            <p className="text-sm">Follows a 1/r² power decay with distance due to spherical spreading</p>
-          </div>
-
-          <div className="p-2 bg-gray-800 rounded">
-            <p className="font-semibold">Key Properties:</p>
+            <p>Where:</p>
             <ul className="list-disc list-inside text-sm">
-              <li>Linearity: Linear response to transmitted signals</li>
-              <li>Time Invariance: Holds only when transmit and receive antennas are fixed; obstructions or motion (like Doppler shifts) break this time invariance</li>
+              <li><strong>r</strong>: Distance from transmitter to receiver (meters)</li>
+              <li><strong>f</strong>: Frequency of the transmitted signal (hertz)</li>
+              <li><strong>c</strong>: Speed of light in a vacuum (approx 3 × 10<sup>8</sup> m/s)</li>
             </ul>
           </div>
         </div>

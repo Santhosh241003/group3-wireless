@@ -7,6 +7,7 @@ interface ControlsProps {
     setVelocity: (value: number) => void;
     distance: number;
     setDistance: (value: number) => void;
+    isMoving: boolean; // New prop to determine if the scenario is moving
 }
 
 const Controls = ({
@@ -15,7 +16,8 @@ const Controls = ({
     velocity,
     setVelocity,
     distance,
-    setDistance
+    setDistance,
+    isMoving, // Receive the isMoving prop
 }: ControlsProps) => {
     return (
         <div className="bg-gray-800 rounded-xl p-6 shadow-xl">
@@ -58,28 +60,30 @@ const Controls = ({
                         />
                     </div>
                 </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Velocity (m/s)
-                    </label>
-                    <div className="flex items-center gap-4">
-                        <input
-                            type="number"
-                            min="0"
-                            max="300000000" // Set max value directly for clarity
-                            step="100"
-                            value={velocity}
-                            onChange={(e) => setVelocity(parseFloat(e.target.value))}
-                            className="flex-1 h-10 p-2 border border-gray-300 bg-gray-700 rounded-lg text-white" // Improved height and padding
-                            placeholder="Enter velocity (m/s)"
-                        />
-                        <span className="w-32 text-right text-sm bg-gray-700 rounded px-2 py-1 text-white">
-                            {velocity >= 1e6
-                                ? `${(velocity / 1e6).toFixed(2)}e6 m/s` // Display in scientific notation if >= 1e6
-                                : `${velocity} m/s`}
-                        </span>
+                {isMoving  && (
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                            Velocity (m/s)
+                        </label>
+                        <div className="flex items-center gap-4">
+                            <input
+                                type="number"
+                                min="0"
+                                max="300000000"
+                                step="100"
+                                value={velocity}
+                                onChange={(e) => setVelocity(parseFloat(e.target.value))}
+                                className="flex-1 h-10 p-2 border border-gray-300 bg-gray-700 rounded-lg text-white"
+                                placeholder="Enter velocity (m/s)"
+                            />
+                            <span className="w-32 text-right text-sm bg-gray-700 rounded px-2 py-1 text-white">
+                                {velocity >= 1e6
+                                    ? `${(velocity / 1e6).toFixed(2)}e6 m/s`
+                                    : `${velocity} m/s`}
+                            </span>
+                        </div>
                     </div>
-                </div>
+                )}
                 <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
                         Distance (m)
@@ -117,7 +121,6 @@ const Controls = ({
                         />
                     </div>
                 </div>
-
             </div>
         </div>
     );
