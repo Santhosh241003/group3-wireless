@@ -39,7 +39,7 @@ const FreeSpaceMoving = () => {
 
   return (
     <div className="relative">
-      <h2 className="text-xl font-semibold mb-4">Free Space, Fixed Transmit and Moving Receiver Antenna</h2>
+      <h2 className="text-xl font-semibold mb-4">Free Space, Fixed Transmitter and Moving Receiver </h2>
       <div className="bg-gray-900 rounded-lg p-4">
         <svg ref={canvasRef} viewBox="0 0 400 200" className="w-full h-96">
           {/* Background grid */}
@@ -71,17 +71,16 @@ const FreeSpaceMoving = () => {
 
       {/* Key Points Section */}
       <div className="mt-4 space-y-4 text-gray-300">
-        <h3 className="text-lg font-semibold">Key Points:</h3>
         <div className="space-y-2">
           <div className="p-2 bg-gray-800 rounded">
-            <p>Transmitted Signal:</p>
+            <p><strong>Transmitted Signal:</strong></p>
             <code className="block text-sm bg-gray-900 p-2 rounded">
               Ef(t) = cos(2πft)
             </code>
           </div>
 
           <div className="p-2 bg-gray-800 rounded">
-            <p>Received Signal:</p>
+            <p><strong>Received Signal:</strong></p>
             <code className="block text-sm bg-gray-900 p-2 rounded">
               Er(t) = (G(f) / (r₀ + vt)) * cos(2πf(t – ((r₀ - vt) / c)))
             </code>
@@ -112,22 +111,8 @@ const FreeSpaceMoving = () => {
               -f(v/c)
             </code>
           </div>
-
           <div className="p-2 bg-gray-800 rounded">
-            <p className="font-semibold">Time-Variance of the Channel:</p>
-            <p className="text-sm">This channel cannot be represented as an LTI channel due to:</p>
-            <ul className="list-disc list-inside text-sm">
-              <li>Time-varying attenuation: 1/(r₀ + vt) changes over time.</li>
-              <li>Doppler Shift: Frequency f is shifted by -f(v/c), which depends on f.</li>
-            </ul>
-            <p className="text-sm mt-2">By ignoring the time-varying attenuation in 1/(r₀ + vt), we can approximate the channel with a system function followed by a Doppler-shifted frequency:</p>
-            <code className="block text-sm bg-gray-900 p-2 rounded">
-              f' = f - (f(v/c))
-            </code>
-          </div>
-
-          <div className="p-2 bg-gray-800 rounded">
-            <p className="font-semibold">Key Points:</p>
+          <h2 className="text-lg font-semibold">Key Points:</h2>
             <ul className="list-disc list-inside text-sm">
               <li>Doppler Shift: Occurs due to relative motion and changes the observed frequency, f' = f(1 - (v/c)).</li>
               <li>Time-varying Attenuation: Due to r(t) = r₀ + vt, leading to a changing 1/(r₀ + vt) factor in signal strength.</li>

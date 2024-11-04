@@ -35,7 +35,7 @@ const FreeSpaceFixed = () => {
 
   return (
     <div className="relative">
-      <h2 className="text-xl font-semibold mb-4">Free Space, Fixed Transmit and Receive Antennas</h2>
+      <h2 className="text-xl font-semibold mb-4">Free Space, Fixed Transmitter and Fixed Receiver</h2>
       <div className="bg-gray-900 rounded-lg p-4">
         <svg ref={canvasRef} viewBox="0 0 400 200" className="w-full h-96">
           {/* Background grid */}
@@ -61,7 +61,7 @@ const FreeSpaceFixed = () => {
           </g>
 
           {/* Direct path */}
-          <line x1="106" y1="100" x2="294" y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="106" y1="100" x2="300" y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
       </div>
 
@@ -70,21 +70,21 @@ const FreeSpaceFixed = () => {
         <h3 className="text-lg font-semibold">Key Points:</h3>
         <div className="space-y-2">
           <div className="p-2 bg-gray-800 rounded">
-            <p>Transmitted Signal:</p>
+            <p><strong>Transmitted Signal:</strong></p>
             <code className="block text-sm bg-gray-900 p-2 rounded">
-              A·cos(2πft)
+            Ef(t) = cos(2πft)
             </code>
           </div>
 
           <div className="p-2 bg-gray-800 rounded">
-            <p>Received Signal:</p>
+            <p><strong>Received Signal:</strong></p>
             <code className="block text-sm bg-gray-900 p-2 rounded">
-              A·cos(2πf(t - r/c))/r
+            Er(t) = (G(f)/r) ·cos(2πf(t - r/c))/r
             </code>
           </div>
 
           <div className="p-2 bg-gray-800 rounded">
-            <p>Where:</p>
+            <p><strong>Where:</strong></p>
             <ul className="list-disc list-inside text-sm">
               <li><strong>r</strong>: Distance from transmitter to receiver (meters)</li>
               <li><strong>f</strong>: Frequency of the transmitted signal (hertz)</li>

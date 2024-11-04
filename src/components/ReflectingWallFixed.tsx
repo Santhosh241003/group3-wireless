@@ -26,7 +26,7 @@ const ReflectingWallFixed = () => {
 
   return (
     <div className="relative">
-      <h2 className="text-xl font-semibold mb-4">Reflecting Wall, Fixed Antenna</h2>
+      <h2 className="text-xl font-semibold mb-4">Reflecting Wall, Fixed Transmitter and Fixed Receiver</h2>
       <div className="bg-gray-900 rounded-lg p-4">
         <svg ref={canvasRef} viewBox="0 0 500 200" className="w-full h-[400px]">
           {/* Background grid */}
@@ -80,14 +80,14 @@ const ReflectingWallFixed = () => {
       </div>
       <div className="mt-4 text-gray-300">
         <div className="p-2 bg-gray-800 rounded">
-          <p>Transmitted Signal:</p>
+          <p><strong>Transmitted Signal:</strong></p>
           <code className="block text-sm bg-gray-900 p-2 rounded">
             Ef(t) = cos(2πft)
           </code>
         </div>
 
         <div className="p-2 bg-gray-800 rounded">
-          <p>Received Signal:</p>
+          <p><strong>Received Signal:</strong></p>
           <code className="block text-sm bg-gray-900 p-2 rounded">
             Er(t) = ((G(f)/r) * cos(2πf(t - r/c))) + ((G(f)/(2d - r)) * cos(2πf(t - ((2d - r)/c)))
           </code>
@@ -127,10 +127,8 @@ const ReflectingWallFixed = () => {
         <div className="p-2 bg-gray-800 rounded">
           <p className="font-semibold">Frequency Dependence (Coherence Bandwidth):</p>
           <ul className="list-disc list-inside text-sm">
-            <li>For a fixed distance r, changing the frequency f slightly can shift the signal from a peak to a valley in the interference pattern.</li>
-            <li><strong>Coherence Bandwidth Bc:</strong> The frequency range over which the interference pattern does not change appreciably is inversely related to the delay spread Td.</li>
             <li><strong>Delay Spread Td:</strong> Td = (2d - r)/c - r/c, the difference in propagation delays between paths.</li>
-            <li>Coherence Bandwidth Bc: Bc ≈ 1/Td. If the frequency changes by less than Bc, the interference pattern remains stable.</li>
+            <li><strong>Coherence Bandwidth Bc:</strong> Bc ≈ 1/Td. If the frequency changes by less than Bc, the interference pattern remains stable.</li>
           </ul>
         </div>
 

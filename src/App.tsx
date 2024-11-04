@@ -18,10 +18,10 @@ function App() {
   const [distance, setDistance] = useState(100); // meters
 
   const scenarios = [
-    { id: 'freeFixed', title: 'Free Space, Fixed Antennas' },
-    { id: 'freeMoving', title: 'Free Space, Moving Antenna' },
-    { id: 'wallFixed', title: 'Reflecting Wall, Fixed Antenna' },
-    { id: 'wallMoving', title: 'Reflecting Wall, Moving Antenna' },
+    { id: 'freeFixed', title: 'Free Space, Fixed Transmitter and Fixed Receiver' },
+    { id: 'freeMoving', title: 'Free Space, Fixed Transmitter and Moving Receiver' },
+    { id: 'wallFixed', title: 'Reflecting Wall, Fixed Transmitter and Fixed Receiver' },
+    { id: 'wallMoving', title: 'Reflecting Wall, Fixed Transmitter and Moving Receiver' },
   ];
 
   // Determine if the scenario involves moving antennas
@@ -127,10 +127,10 @@ function App() {
         <header className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Radio className="w-8 h-8 text-blue-400" />
-            <h1 className="text-3xl font-bold">Radio Wave Propagation Calculator</h1>
+            <h1 className="text-3xl font-bold">Ray Tracing Model</h1>
             <Waves className="w-8 h-8 text-blue-400" />
           </div>
-          <p className="text-gray-300">Interactive visualization and calculation of radio wave propagation scenarios</p>
+          <p className="text-gray-300">Interactive visualization and calculation of Transmitted and Receiver signal in different cases</p>
         </header>
 
         {/* Row 1: Scenario Selection Buttons */}
@@ -183,7 +183,7 @@ function App() {
             <div>
               <div className="font-medium mb-1">Doppler Shift:</div>
               <div className="bg-gray-700 rounded p-2 text-center">
-                {calculateDopplerShift(velocity, frequency)} Hz
+                {calculateDopplerShift(velocity, frequency)}
               </div>
             </div>
           </div>
