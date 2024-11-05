@@ -82,7 +82,7 @@ const FreeSpaceMoving = () => {
           <div className="p-2 bg-gray-800 rounded">
             <p><strong>Received Signal:</strong></p>
             <code className="block text-sm bg-gray-900 p-2 rounded">
-              Er(t) = (G(f) / (r₀ + vt)) * cos(2πf(t – ((r₀ - vt) / c)))
+              Er(t) = (G / (r₀ + vt)) * cos(2πf(t – ((r₀ - vt) / c)))
             </code>
           </div>
 
@@ -93,6 +93,7 @@ const FreeSpaceMoving = () => {
               <li><strong>v</strong>: Velocity of the receiver</li>
               <li><strong>f</strong>: Frequency of the transmitted signal (hertz)</li>
               <li><strong>c</strong>: Speed of light in a vacuum (approx 3 × 10<sup>8</sup> m/s)</li>
+              <li><strong>G</strong>: Antenna Gain, Here we consider G = 1</li>
             </ul>
           </div>
 

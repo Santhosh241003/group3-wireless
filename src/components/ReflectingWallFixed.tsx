@@ -89,7 +89,7 @@ const ReflectingWallFixed = () => {
         <div className="p-2 bg-gray-800 rounded">
           <p><strong>Received Signal:</strong></p>
           <code className="block text-sm bg-gray-900 p-2 rounded">
-            Er(t) = ((G(f)/r) * cos(2πf(t - r/c))) + ((G(f)/(2d - r)) * cos(2πf(t - ((2d - r)/c)))
+            Er(t) = ((G/r) * cos(2πf(t - r/c))) + ((G(f)/(2d - r)) * cos(2πf(t - ((2d - r)/c)))
           </code>
         </div>
 
@@ -100,6 +100,7 @@ const ReflectingWallFixed = () => {
             <li><strong>d</strong>: Distance between transmitter and Wall (meters)</li>
             <li><strong>f</strong>: Frequency of the transmitted signal (hertz)</li>
             <li><strong>c</strong>: Speed of light in a vacuum (approx 3 × 10<sup>8</sup> m/s)</li>
+            <li><strong>G</strong>: Antenna Gain, Here we consider G = 1</li>
           </ul>
         </div>
 
@@ -117,30 +118,14 @@ const ReflectingWallFixed = () => {
         </div>
 
         <div className="p-2 bg-gray-800 rounded">
-          <p className="font-semibold">Constructive and Destructive Interference (Coherence Distance):</p>
-          <ul className="list-disc list-inside text-sm">
-            <li><strong>Spatial Interference Pattern:</strong> Due to the superposition of direct and reflected waves, there is a pattern of constructive and destructive interference as the receive antenna moves.</li>
-            <li><strong>Coherence Distance xc:</strong> xc = λ/4, where λ = c/f is the wavelength of the transmitted signal. Over distances smaller than xc, the received signal remains nearly constant.</li>
-          </ul>
-        </div>
+            <li><strong>Coherence Distance xc :</strong>  λ/4, where λ = c/f is the wavelength of the transmitted signal. Over distances smaller than xc, the received signal remains nearly constant.</li>
 
-        <div className="p-2 bg-gray-800 rounded">
-          <p className="font-semibold">Frequency Dependence (Coherence Bandwidth):</p>
-          <ul className="list-disc list-inside text-sm">
             <li><strong>Delay Spread Td:</strong> Td = (2d - r)/c - r/c, the difference in propagation delays between paths.</li>
-            <li><strong>Coherence Bandwidth Bc:</strong> Bc ≈ 1/Td. If the frequency changes by less than Bc, the interference pattern remains stable.</li>
-          </ul>
+            <li><strong>Coherence Bandwidth Bc:</strong> Bc = c/4(d-r). It is a change in frequency to move from constructive to destructive interference.</li>
+          
         </div>
 
-        <div className="p-2 bg-gray-800 rounded">
-          <p className="font-semibold">Key Points:</p>
-          <ul className="list-disc list-inside text-sm">
-            <li><strong>Two-Path Interference:</strong> The received signal is a sum of the direct and reflected paths, with constructive or destructive interference based on phase differences.</li>
-            <li><strong>Coherence Distance xc:</strong> Defines the spatial range over which the received signal does not vary significantly.</li>
-            <li><strong>Delay Spread Td:</strong> Time difference between direct and reflected paths, determining the coherence bandwidth.</li>
-            <li><strong>Coherence Bandwidth Bc:</strong> Defines the range of frequencies over which the interference pattern remains stable.</li>
-          </ul>
-        </div>
+        
       </div>
     </div>
   );

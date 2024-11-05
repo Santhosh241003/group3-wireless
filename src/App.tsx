@@ -14,7 +14,7 @@ type ScenarioType = 'freeFixed' | 'freeMoving' | 'wallFixed' | 'wallMoving';
 function App() {
   const [activeScenario, setActiveScenario] = useState<ScenarioType>('freeFixed');
   const [frequency, setFrequency] = useState(10); // 10 GHz default
-  const [velocity, setVelocity] = useState(0); // m/s
+  const [velocity, setVelocity] = useState(10); // m/s
   const [distance, setDistance] = useState(100); // meters
 
   const scenarios = [
@@ -29,20 +29,51 @@ function App() {
 
   const hasReflection = activeScenario === 'wallFixed' || activeScenario === 'wallMoving';
 
-  const calculatePathLoss = (distance: number, frequency: number) => {
-    if (distance > 0 && frequency > 0) {
-      return (20 * Math.log10((4 * Math.PI * distance * frequency * 1e6) / 3e8)).toFixed(2);
-    }
-    return 'N/A';
-  };
-
+  // Doppler Shift
   const calculateDopplerShift = (velocity: number, frequency: number) => {
-    if (isMoving && velocity && frequency > 0) {
-      return (frequency * 1e6 * velocity / 3e8).toFixed(2);
+    if (velocity && frequency > 0) {
+      return ((frequency * 1e6 * velocity) / 3e8).toFixed(2) + ' Hz';
     }
-
     return '0.00 Hz';
   };
+  const calculateDopplerSpread = (velocity: number, frequency: number) => {
+    if (velocity && frequency > 0) {
+      return (2*(frequency * 1e6 * velocity) / 3e8).toFixed(2) + ' Hz';
+    }
+    return '0.00 Hz';
+  };
+
+  // Coherence Time
+  
+
+  // Coherence Bandwidth
+  const calculateCoherenceBandwidth = (distance :number) => {
+
+      return (3e8 / (4 * (300 - distance))/1e6).toFixed(2) + ' MHz';
+  };
+
+  const calculateCoherenceDistance = (frequency: number) => {
+    if (velocity > 0 && frequency > 0) {
+      const coherenceDistance = 3e8/(4*frequency*1e6); // in meters
+      return coherenceDistance.toFixed(2) + ' m';
+    }
+    return 'N/A m';
+  };
+
+  // Delay Spread
+  const calculateDelaySpread = (distance: number) => {
+    // Assuming delay spread based on environment (example values in microseconds)
+    
+    const delaySpread = (2*(300-distance))/3e8; // Default 1 μs if unknown
+    return (delaySpread * 1e6).toFixed(2) + 'μs';
+  };
+  const calculatecoherenceTime_case4 = (velocity: number,frequency:number) => {
+    // Assuming delay spread based on environment (example values in microseconds)
+    
+    const coherenceTime_4 = 3e8/(4*frequency*1e6*velocity); // Default 1 μs if unknown
+    return coherenceTime_4.toFixed(2) + ' s';
+  };
+
 
   const renderScenario = () => {
     switch (activeScenario) {
@@ -162,8 +193,8 @@ function App() {
             velocity={isMoving ? velocity : 0} // Set velocity to 0 if the scenario is not moving
             setVelocity={setVelocity}
             distance={distance}
-            setDistance={setDistance} 
-            isMoving={isMoving}          />
+            setDistance={setDistance}
+            isMoving={isMoving} />
         </div>
 
         {/* Waveform Plots for Transmitted, Received, Reflected, and Combined Signals */}
@@ -171,23 +202,74 @@ function App() {
           {renderWaveformPlots()}
         </div>
 
-        {/* Path Loss and Doppler Shift Info */}
         <div className="bg-gray-800 rounded-xl p-6 shadow-xl mb-8">
           <div className="mt-6 grid grid-cols-2 gap-4 text-sm max-w-6xl mx-auto text-gray-300">
-            <div>
-              <div className="font-medium mb-1">Path Loss:</div>
-              <div className="bg-gray-700 rounded p-2 text-center">
-                {calculatePathLoss(distance, frequency)} dB
-              </div>
-            </div>
+
+            {/* Doppler Shift */}
+            {isMoving && !hasReflection && (
             <div>
               <div className="font-medium mb-1">Doppler Shift:</div>
               <div className="bg-gray-700 rounded p-2 text-center">
-                {calculateDopplerShift(velocity, frequency)}
+                {calculateDopplerShift(velocity, frequency)} 
               </div>
             </div>
+            )
+            
+            }
+
+            {/* Coherence Bandwidth */}
+            {hasReflection && !isMoving &&(
+            <div>
+              <div className="font-medium mb-1">Coherence Bandwidth:</div>
+              <div className="bg-gray-700 rounded p-2 text-center">
+                {calculateCoherenceBandwidth(distance)} 
+              </div>
+            </div>
+            )
+            }
+
+            {hasReflection && !isMoving &&(
+            <div>
+              <div className="font-medium mb-1">Coherence distance:</div>
+              <div className="bg-gray-700 rounded p-2 text-center">
+                {calculateCoherenceDistance(frequency)} 
+              </div>
+            </div>
+            )
+            }
+
+            {/* Delay Spread */}
+            {hasReflection && !isMoving && (
+            <div>
+              <div className="font-medium mb-1">Delay Spread:</div>
+              <div className="bg-gray-700 rounded p-2 text-center">
+                {calculateDelaySpread(distance)} 
+              </div>
+            </div>
+            )
+            }
+            {hasReflection && isMoving && (
+            <div>
+              <div className="font-medium mb-1">Coherence Time:</div>
+              <div className="bg-gray-700 rounded p-2 text-center">
+                {calculatecoherenceTime_case4(velocity,frequency)} 
+              </div>
+            </div>
+            )
+            }
+            {hasReflection && isMoving && (
+            <div>
+              <div className="font-medium mb-1">Doppler Spread:</div>
+              <div className="bg-gray-700 rounded p-2 text-center">
+                {calculateDopplerSpread(velocity,frequency)} 
+              </div>
+            </div>
+            )
+            }
+            
           </div>
         </div>
+
       </div>
     </div>
   );

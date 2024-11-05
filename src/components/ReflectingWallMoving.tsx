@@ -129,7 +129,7 @@ const ReflectingWallMoving = () => {
         <div className="p-2 bg-gray-800 rounded">
           <p><strong>Received Signal:</strong></p>
           <code className="block text-sm bg-gray-900 p-2 rounded">
-            Er(t) = ((G(f) / (r₀ + vt)) * cos(2πf(t - (r₀ + vt)/c))) + ((G(f) / (2d - (r₀ + vt))) * cos(2πf(t - ((2d - (r₀ + vt)) / c)))
+            Er(t) = ((G / (r₀ + vt)) * cos(2πf(t - (r₀ + vt)/c))) + ((G / (2d - (r₀ + vt))) * cos(2πf(t - ((2d - (r₀ + vt)) / c)))
           </code>
         </div>
 
@@ -141,11 +141,12 @@ const ReflectingWallMoving = () => {
             <li><strong>d</strong>: Distance between transmitter and reflector (meters)</li>
             <li><strong>f</strong>: Frequency of the transmitted signal (hertz)</li>
             <li><strong>c</strong>: Speed of light in a vacuum (approx 3 × 10<sup>8</sup> m/s)</li>
+            <li><strong>G</strong>: Antenna Gain, Here we consider G = 1</li>
           </ul>
         </div>
 
         <div className="p-2 bg-gray-800 rounded">
-          <p className=""><strong>Doppler Shifts in the Direct and Reflected Waves:</strong></p>
+          <p className=""><strong>Doppler Spread:</strong></p>
           <ul className="list-disc list-inside text-sm">
           <code className="block text-sm bg-gray-900 p-2 rounded">
               Ds = D2 - D1 = 2f * (v / c)
@@ -166,21 +167,7 @@ const ReflectingWallMoving = () => {
           </code>
         </div>
 
-        <div className="p-2 bg-gray-800 rounded">
-          <p className="font-semibold">Key Points:</p>
-          <ul className="list-disc list-inside text-sm">
-            <li><strong>Coherence Time Tc:</strong> Time interval for stable signal fading, depending on the velocity v.</li>
-            <li><strong>Doppler Spread Ds:</strong> Frequency shift range due to movement; determines the rate of fading.</li>
-            <li><strong>Multipath Fading:</strong> Result of interference pattern (constructive and destructive interference) as the antenna moves.</li>
-          </ul>
-        </div>
-
-        <div className="p-2 bg-gray-800 rounded">
-          <p className="font-semibold">Doppler Shift:</p>
-          <code className="block text-sm bg-gray-900 p-2 rounded">
-            -f * (v / c)
-          </code>
-        </div>
+        
       </div>
     </div>
   );
