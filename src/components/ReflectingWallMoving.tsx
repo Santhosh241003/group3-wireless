@@ -3,7 +3,7 @@ import { Radio } from 'lucide-react';
 
 const ReflectingWallMoving = () => {
   const canvasRef = useRef<SVGSVGElement>(null);
-  const [receiverPosX, setReceiverPosX] = useState(106);
+  const [receiverPosX, setReceiverPosX] = useState(120);
   const wallPositionX = 400; // Wall's x-position
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const ReflectingWallMoving = () => {
       setReceiverPosX((prev) => {
         // Move receiver towards the target; reset to start position if it reaches the target
         if (prev >= wallPositionX) {
-          return 106; // Reset to initial position
+          return 120; // Reset to initial position
         }
         return prev + 2; // Move to the right
       });
@@ -84,10 +84,10 @@ const ReflectingWallMoving = () => {
 
           {/* Direct path */}
           <line
-            x1="106"
-            y1="100"
+            x1="120"
+            y1="110"
             x2={receiverPosX}
-            y2="100"
+            y2="110"
             stroke="rgba(59,130,246,0.5)"
             strokeWidth="2"
             strokeDasharray="5,5"
@@ -96,9 +96,9 @@ const ReflectingWallMoving = () => {
           {/* Reflected Ray */}
           {(
             <line
-              x1={wallPositionX}
+              x1="110"
               y1="100"
-              x2={receiverPosX}
+              x2="400"
               y2="100"
               stroke="rgba(246,82,3,0.7)"
               strokeWidth="2"

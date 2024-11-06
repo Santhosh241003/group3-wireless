@@ -26,9 +26,9 @@ const FreeSpaceMoving = () => {
 
         // Update receiver position to move towards the right
         setReceiverPosition((prev) => {
-          const newPosition = prev + velocity;
+          const newPosition = prev + 2;
           // Stop at the SVG boundary (400) or wrap around
-          return newPosition > 300 ? 106 : newPosition;
+          return newPosition > 300 ? 110 : newPosition;
         });
       }
     }, 50);

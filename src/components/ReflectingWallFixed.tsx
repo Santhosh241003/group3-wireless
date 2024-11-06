@@ -57,10 +57,10 @@ const ReflectingWallFixed = () => {
 
           {/* Direct path */}
           <line
-            x1="106"
-            y1="100"
+            x1="110"
+            y1="110"
             x2="300"
-            y2="100"
+            y2="110"
             stroke="rgba(59,130,246,0.8)"
             strokeWidth="3"
             strokeDasharray="5,5"
@@ -70,7 +70,7 @@ const ReflectingWallFixed = () => {
 
           {/* Secondary reflected path (lower path) */}
           <path
-            d="M 300 100 L 400 100 L 400 110 L 310 110"
+            d="M 110 120 L 400 120 L 310 110 "
             fill="none"
             stroke="rgba(246,82,3,0.7)"
             strokeWidth="3"
