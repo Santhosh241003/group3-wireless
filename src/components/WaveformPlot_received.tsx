@@ -56,6 +56,7 @@ const WaveformPlot_received: React.FC<WaveformPlotProps> = ({
           title: 'Amplitude',
           showgrid: true,
           zeroline: false,
+          range:[0,1],
         },
         hovermode: 'closest',
       }}

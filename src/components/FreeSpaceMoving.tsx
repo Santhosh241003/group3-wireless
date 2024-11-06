@@ -6,7 +6,6 @@ const FreeSpaceMoving = () => {
   const [frequency, setFrequency] = useState(2);
   const [velocity, setVelocity] = useState(1); // Speed of the receiver
   const [receiverPosition, setReceiverPosition] = useState(300); // Initial position of the receiver
-
   useEffect(() => {
     const interval = setInterval(() => {
       if (canvasRef.current) {
@@ -27,7 +26,7 @@ const FreeSpaceMoving = () => {
 
         // Update receiver position to move towards the right
         setReceiverPosition((prev) => {
-          const newPosition = prev + 2;
+          const newPosition = prev + velocity;
           // Stop at the SVG boundary (400) or wrap around
           return newPosition > 300 ? 106 : newPosition;
         });
@@ -58,14 +57,14 @@ const FreeSpaceMoving = () => {
             <circle className="wave" r="70" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.6" />
             <circle className="wave" r="90" fill="none" stroke="#3b82f6" strokeWidth="2" opacity="0.4" />
           </g>
-
+          
           {/* Receiver (moving to the right) */}
           <g transform={`translate(${receiverPosition},100)`}>
             <Radio className="w-6 h-6 text-green-500" />
           </g>
 
           {/* Direct path */}
-          <line x1="106" y1="100" x2={receiverPosition} y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
+          <line x1="116" y1="100" x2={receiverPosition} y2="100" stroke="rgba(59,130,246,0.5)" strokeWidth="2" strokeDasharray="5,5" />
         </svg>
       </div>
 
@@ -113,7 +112,7 @@ const FreeSpaceMoving = () => {
             </code>
           </div>
           <div className="p-2 bg-gray-800 rounded">
-          <h2 className="text-lg font-semibold">Key Points:</h2>
+            <h2 className="text-lg font-semibold">Key Points:</h2>
             <ul className="list-disc list-inside text-sm">
               <li>Doppler Shift: Occurs due to relative motion and changes the observed frequency, f' = f(1 - (v/c)).</li>
               <li>Time-varying Attenuation: Due to r(t) = r₀ + vt, leading to a changing 1/(r₀ + vt) factor in signal strength.</li>
